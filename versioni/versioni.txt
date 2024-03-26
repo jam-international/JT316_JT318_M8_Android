@@ -1,0 +1,14 @@
+JamLeather-3.0.apk = con PLC 4.5 e firmware m32_0004_V2_05_000_c2.bin gestiscono alzata piedino durante TEST
+			+ parametro per scegliere tipo XY azzeramento 
+			+zoom al centro
+
+
+JamLeather-4.0.apk = con PLC 4.4 e firmware m32_0004_V2_05_000_c2.bin ho aggiunto un codice per escludere rasafilo dalla ricetta (vedi Vb36_CodiceNoTrim)
+JamLeather-5.0.apk = inserito JT318 1000x800
+JamLeather-6.0.apk = sistemato pagina etst I_O per JT318 1000x800
+JamLeather-6.1.apk = per JT318 1000x800 nella pagina modifica programma con il + non andava nella zona di -Y sopra 570, prova da distanza a mettere un +200mm. Cercare " //porcata pe cercare di risolvere da distanza un problema" 
+JamLeather-6.2.apk = aggiunta JT316 1000x600 , sistemato nella pagina Main il cambio della velocità, nella pagina ModificaProg se premevi il numero 7 scriveva 1.
+
+JamLeather-6.4.apk = Renzo Marocco, quando creava udf alla fine di ogni linea metteva un pinza filo anche se la linea dopo era sempre una cucitura
+JamLeather-6.5.apk (01/12/2023) = aggiunto parametro 35, se messo ad ON (e con ver M8 almeno 4.9) quando da modifica programma chiamo la casetta va direttamente al PC
+					senza passare per lo zero.

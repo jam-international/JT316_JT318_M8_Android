@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JT316_JT318_M8</string>
+    <string name="lingua">italiano</string>
+    <string name="Arco3P_p2">Muoviti con le frecce al secondo punto dell arco e poi premi Enter</string>
+    <string name="Arco3P_p3">Muoviti con le frecce al punto finale dell arco e poi premi Enter</string>
+    <string name="DigitaLP">Inserisci la lunghezza punto</string>
+    <string name="Errore">Errore</string>
+    <string name="Fatto">Fatto</string>
+    <string name="UsbXmlWait">Perfavore aspetta...</string>
+    <string name="UsbXmlUnmounted">Usb non montata</string>
+    <string name="StringMove1">Premi + - fino all ultimo punto da muovere, poi premi Enter</string>
+    <string name="StringMove2">Spostati con le frecce e poi premi Enter</string>
+    <string name="StringMove3">Avanza alla prossima entità o spostati con le frecce e poi premi Enter</string>
+    <string name="StringMove4">Avanza al prossimo punto o spostati con le frecce e poi premi Enter</string>
+    <string name="StretchStep">Premi - fino al punto di stretch e poi premi Enter</string>
+    <string name="StretchPointFrecce">Muoviti con le frecce al punto finale di stretch e poi premi Enter</string>
+    <string name="ZigZag">Muoviti con le frecce al punto finale della travetta e poi premi Enter</string>
+    <string name="ZigZag1">Digita altezza della travetta</string>
+    <string name="ZigZag2">Digita il passo della travetta</string>
+    <string name="MiddlePointStep">Premi + - fino ad un punto medio dell arco e premi Enter</string>
+    <string name="Feed">Muoviti con le frecce al punto finale del feed e poi premi Enter</string>
+    <string name="EndPointStep">Premi + - fino al punto di fine arco e poi premi Enter</string>
+    <string name="StringRaddrizzaLinea1">Premi + - fino all ultimo punto da allineare, poi premi Enter</string>
+    <string name="StringCancella">Premi tasti + - fino ultimo punto da cancellare poi premi Enter</string>
+    <string name="EndStretchStep">Premi + fino al punto finale di stretch e poi premi Enter</string>
+    <string name="DigitaNuovaLP">Inserisci la nuova lunghezza punto</string>
+    <string name="Code_error">Questi codici sono stati rimossi</string>
+    <string name="freccia_sx_all"><![CDATA[<-]]> All</string>
+    <string name="freccia_dx_all">All <![CDATA[->]]></string>
+    <string name="freccia_sx"><![CDATA[<-]]></string>
+    <string name="freccia_dx"><![CDATA[->]]></string>
+    <string name="Stato_azzeramento">Stato_azzeramento</string>
+    <string name="togliere_ago">Attenzione, l\'ago ruoterà per alcuni giri, togliere l\'ago.</string>
+    <string name="Ready">Pronto</string>
+    <string name="Done">Eseguito correttamente</string>
+    <string name="SelezionaSize">Selezionare Size16 o 32</string>
+    <string name="InserireValore">Inserire un valore</string>
+    <string name="ValoreLetto">Valore letto: </string>
+    <string name="ValoreScritto">Valore scritto: </string>
+    <string name="Press_emergency">Premi Emergenza per uscire </string>
+    <string name="Save">Salva</string>
+    <string name="Prog_esecuzione">Programma in esecuzione:</string>
+    <string name="Riga_esecuzione">Riga in esecuzione: </string>
+    <string name="cnt_thread">Numero Thread:</string>
+    <string name="Allarme">Allarme:</string>
+    <string name="MachineMemory">Memoria della macchina</string>
+    <string name="FileName_">Nome File:</string>
+    <string name="Cancel">Cancella</string>
+    <string name="Folder">Cartella</string>
+    <string name="Azz_taccaZ">Azzeramento Tacca Z</string>
+    <string name="PremiTastoVerde">Premere il pulsante verde per attivare la macchina</string>
+    <string name="PremiStartAzz">Premere i pulsanti di start per azzeramento</string>
+    <string name="PremiEmergenza">Premere il pulsante emergenza</string>
+    <string name="MancaAria">Aria insufficiente</string>
+    <string name="ToccaTouch">Premere il touch al centro dei cerchi rossi</string>
+    <string name="ErroreCicloAuto">0) Ciclo Automatico interrotto, preme + per maggiori dettagli</string>
+
+
+    <string-array name="Descrizione_parametri_Udf_Cucitura">
+        <item> </item>
+        <item>Velocità cucitura massima</item>“ “<!-- 1 -->
+        <item>Numero punti lenti inizio</item>“ “<!-- 2 -->
+        <item>Velocità punti lenti inizio</item>“ “<!-- 3 -->
+        <item>Numero punti lenti prima del rasafilo</item>“ “<!-- 4 -->
+        <item>Velocità punti lenti prima del rasafilo</item>“ “<!-- 5 -->
+        <item>Velocità spostamento tra cuciture</item>“ “<!-- 6 -->
+
+    </string-array>
+    <string-array name="Descrizione_parametri_JT350">
+        <item> </item>
+        <item>Abilita Rottura Filo</item>“ “<!-- 1 -->
+        <item>Abilita controllo spola</item>“ “<!-- 2 -->
+        <item>Soglia start movimento [gradi]</item>“ “<!-- 3 -->
+        <item>Soglia stop movimento [gradi]</item>“ “<!-- 4 -->
+        <item>Ago alto [gradi]</item>“ “<!-- 5 -->
+        <item>Start camma apritensione [gradi]</item>“ “<!-- 6 -->
+        <item>Stop camma apritensione [gradi]</item>“ “<!-- 7 -->
+        <item>Start camma coltello [gradi]</item>“ “<!-- 8 -->
+        <item>Stop camma coltello [gradi]</item>“ “<!-- 9 -->
+        <item>Tempo salita piedino [s]</item>“ “<!-- 10 -->
+        <item>Tempo discesa piedino [s]</item>“ “<!-- 11 -->
+        <item>Vel. lavoro ago [RPM]</item>“ “<!-- 12 -->
+        <item>Punti iniziali</item>“ “<!-- 13 -->
+        <item>Vel iniziale ago [RPM]</item>“ “<!-- 14 -->
+        <item>Punti rallentamento</item>“ “<!-- 15 -->
+        <item>Vel rallentamento ago</item>“ “<!-- 16 -->
+        <item>Quota stop ago</item>“ “<!-- 17 -->
+        <item>Offset di fase tra la quota ago e la tacca di zero</item>“ “<!-- 18 -->
+        <item>Feed nei movimenti G0 per azzeramento o reset [mm/min]</item>“ “<!-- 19 -->
+        <item>Reset contapezzi</item>“ “<!-- 20 -->
+        <item>Sgancio Pinza Dopo Zero</item>“ “<!-- 21 -->
+        <item>Aggancio pinza con sensori</item>“ “<!-- 22 -->
+        <item>Sgancio pinza fine cucitura</item>“ “<!-- 23 -->
+        <item>Partenza automatica da sensori</item>“ “<!-- 24 -->
+        <item>Partenza con pedale senza sensori</item>“ “<!-- 25 -->
+        <item>Sensibilità sensore rottura filo</item>“ “<!-- 26 -->
+
+    </string-array>
+    <string-array name="Descrizione_parametri_JT318M">
+        <item> </item>
+        <item>Abilita Rottura Filo</item>“ “<!-- 1 -->
+        <item>Abilita controllo spola</item>“ “<!-- 2 -->
+        <item>Ago alto [gradi]</item>“ “<!-- 3 -->
+        <item>Start camma apritensione [gradi]</item>“ “<!-- 4 -->
+        <item>Stop camma apritensione [gradi]</item>“ “<!-- 5 -->
+        <item>Start camma coltello [gradi]</item>“ “<!-- 6 -->
+        <item>Stop camma coltello [gradi]</item>“ “<!-- 7 -->
+        <item>Tempo salita piedino [s]</item>“ “<!-- 8 -->
+        <item>Tempo discesa piedino [s]</item>“ “<!-- 9 -->
+        <item>Feed nei movimenti G0 per azzeramento o reset [mm/min]</item>“ “<!-- 10 -->
+        <item>Reset contapezzi</item>“ “<!-- 11 -->
+        <item>Sgancio Pinza Dopo Zero</item>“ “<!-- 12 -->
+        <item>Aggancio pinza con sensori</item>“ “<!-- 13 -->
+        <item>Sgancio pinza fine cucitura</item>“ “<!-- 14 -->
+        <item>Partenza automatica da sensori</item>“ “<!-- 15 -->
+        <item>Partenza con pedale senza sensori</item>“ “<!-- 16 -->
+        <item>Sensibilità sensore rottura filo</item>“ “<!-- 17 -->
+        <item>Conta produzione (azzerabile)</item>“ “<!-- 18 -->
+        <item>Conta produzione vita</item>“ “<!-- 19 -->
+        <item>Conta produzione vita x100000</item>“ “<!-- 20 -->
+        <item>Abilita scartafilo</item>“ “<!-- 21 -->
+        <item>Durata scartafilo </item>“ “<!-- 22 -->
+        <item>Abilita rasafilo</item>“ “<!-- 23 -->
+        <item>Abilita pressello</item>“ “<!-- 24 -->
+        <item>Abilita solo taglio filo sopra</item>“ “<!-- 25 -->
+        <item>Angolo entrata rasafilo solo taglio filo sopra</item>“ “<!-- 26 -->
+        <item>Angolo uscita rasafilo solo taglio filo sopra</item>“ “<!-- 27 -->
+        <item>Abilita Pinza filo</item>“ “<!-- 28 -->
+        <item>Ritardo pinzafilo avanti dopo piedino alto</item>“ “<!-- 29 -->
+        <item>Ritardo tra pinzafilo corto OFF e pinzafilo lungo OFF </item>“ “<!-- 30 -->
+        <item>Ritardo tra pinzafilo lungo OFF e piedino giu</item>“ “<!-- 31 -->
+        <item>Numeri punti rilascio pinzafilo</item>“ “<!-- 32 -->
+        <item>Tempo pinzafilo rimane avanti</item>“ “<!-- 33 -->
+        <item>Sequenza movimenti XY durante Reset</item>“ “<!-- 34 -->
+        <item>Reset da HMI senza passare da Zero Sensori</item>“ “<!-- 35 -->
+
+    </string-array>
+
+
+    <string-array name="Descrizione_parametri_JT318M_admin">
+        <item> </item>
+        <item>Soglia start movimento [gradi]</item>“ “<!-- 1 -->
+        <item>Soglia stop movimento [gradi]</item>“ “<!-- 2 -->
+        <item>Vel. lavoro ago [RPM]</item>“ “<!-- 3 -->
+        <item>Punti iniziali</item>“ “<!-- 4 -->
+        <item>Vel iniziale ago [RPM]</item>“ “<!-- 5 -->
+        <item>Punti rallentamento</item>“ “<!-- 6 -->
+        <item>Vel rallentamento ago</item>“ “<!-- 7 -->
+        <item>Quota stop ago</item>“ “<!-- 8 -->
+        <item>Offset di fase tra la quota ago e la tacca di zero</item>“ “<!-- 9 -->
+        <item>Abilita Raffreddamento Ago</item>“ “<!-- 10 -->
+        <item>Velocità attivazione raffreddamento ago</item>“ “<!-- 11 -->
+    </string-array>
+
+    <string-array name="allarmi">
+        <item> </item>
+        <item>overlapping codici rotazione</item>                  <!-- 1 -->
+
+    </string-array>
+
+    <string-array name="allarmi_vn2">
+        <item> </item>
+        <item>Cambiare spola</item>                         <!-- 1 -->
+        <item>Rottura filo</item>                           <!-- 2 -->
+        <item>Errore primo punto udf</item>                 <!-- 3 -->
+        <item>Errore creazione tabella</item>                 <!-- 4 -->
+        <item>Errore azzeramento asse3</item>                 <!-- 5-->
+        <item>Errore azzeramento asse4</item>                 <!-- 6-->
+        <item>Errore azzeramento asse1</item>                 <!-- 7-->
+        <item>Errore azzeramento asse5</item>                 <!-- 8-->
+        <item>Errore azzeramento asse6</item>                 <!-- 9-->
+        <item>Errore azzeramento asse2</item>                 <!-- 10-->
+        <item>Punto corrente >= punti totali cucitura</item>    <!-- 11-->
+        <item>Centratura pinza con ago</item>                 <!-- 12-->
+        <item>vn2=13</item>                                 <!-- 13-->
+        <item>Sensori non rilevano il pallet</item>         <!-- 14-->
+        <item>Sportello lamiera aperto</item>               <!-- 15-->
+        <item>Sensori non rilevano aperto pallet</item>         <!-- 16-->
+    </string-array>
+
+
+    <string-array name="warning_vn4">
+        <item> </item>
+        <item>Allarme driver X</item>                       <!-- 1 -->
+        <item>Allarme Driver Y</item>                       <!-- 2 -->
+        <item>Allarme scheda magneti</item>                 <!-- 3 -->
+        <item>Allarme Pressostato</item>                    <!-- 4 -->
+
+
+    </string-array>
+
+
+    <string-array name="output_JT350">
+        <item> </item>
+        <item>o1_OutEnableAx</item>               <!-- 1 -->
+        <item>o2_OutEnableTesta</item>               <!-- 2 -->
+        <item>o3_AGGANCIO_PALLET</item>               <!-- 3 -->
+        <item>o4_EV_PINZA_DX</item>               <!-- 4 -->
+        <item>o5_EvApritenzione</item>               <!-- 5 -->
+        <item>o6_EvRasafilo</item>               <!-- 6 -->
+        <item>o7_EvColloDoca</item>               <!-- 7 -->
+        <item>o8_2_TENSIONE771</item>               <!-- 8 -->
+        <item>o9_EV_PINZA_SX</item>               <!-- 9 -->
+        <item>o10</item>               <!-- 10 -->
+        <item>o11_RAFFREDDAMENTO_AGO</item>               <!-- 11 -->
+        <item>o12</item>               <!-- 12 -->
+        <item>o13_PIEDINO</item>               <!-- 13 -->
+        <item>o14</item>               <!-- 14 -->
+        <item>o15_SCARTAFILO</item>               <!-- 15 -->
+        <item>o16_SIMULAZ_SENS_ZERO_CRO</item>               <!-- 16 -->
+        <item>o17_PRESSELLO</item>               <!-- 17 -->
+        <item>o18_PINZAFILO_CORTO</item>               <!-- 18 -->
+        <item>o19_PINZAFILO_LUNGO</item>               <!-- 19 -->
+        <item>o20</item>               <!-- 20 -->
+        <item>o21</item>               <!-- 21 -->
+        <item>o22</item>               <!-- 22 -->
+        <item>o23</item>               <!-- 23 -->
+        <item>o24</item>               <!-- 24 -->
+        <item>o25</item>               <!-- 25 -->
+        <item>o26</item>               <!-- 26 -->
+        <item>o27</item>               <!-- 27 -->
+        <item>o28</item>               <!-- 28 -->
+        <item>o29</item>               <!-- 29 -->
+        <item>o30</item>               <!-- 30 -->
+        <item>031</item>               <!-- 31 -->
+        <item>032</item>               <!-- 32 -->
+    </string-array>
+
+    <string-array name="output_JT318M">
+        <item> </item>
+        <item>o1 Enable motori XY</item>            <!-- 1 -->
+        <item>o2 Pressello</item>                   <!-- 2 -->
+        <item>o3 Aggancio Palllet</item>            <!-- 3 -->
+        <item>o4 Sportello Spolina</item>           <!-- 4 -->
+        <item>o5 Raffreddamento ago</item>          <!-- 5 -->
+        <item>o6 Rasafilo</item>                    <!-- 6 -->
+        <item>o7 Op2 Salto Piedino</item>           <!-- 7 -->
+        <item>o8 Op1 Tensione supplementare</item>  <!-- 8 -->
+        <item>o9 Pinza filo corto</item>            <!-- 9 -->
+        <item>o10 Pinza filo lungo</item>           <!-- 10 -->
+        <item>o11 Apri tensione</item>               <!-- 11 -->
+        <item>o12 Op3</item>            <!-- 12 -->
+        <item>o13 Piedino</item>        <!-- 13 -->
+        <item>o14</item>               <!-- 14 -->
+        <item>o15 Scartafilo (optinal)</item>               <!-- 15 -->
+        <item>o16</item>               <!-- 16 -->
+        <item>o17</item>               <!-- 17 -->
+        <item>o18</item>               <!-- 18 -->
+        <item>o19</item>               <!-- 19 -->
+        <item>o20_</item>               <!-- 20 -->
+        <item>o21</item>               <!-- 21 -->
+        <item>o22</item>               <!-- 22 -->
+        <item>o23</item>               <!-- 23 -->
+        <item>o24</item>               <!-- 24 -->
+        <item>o25</item>               <!-- 25 -->
+        <item>o26</item>               <!-- 26 -->
+        <item>o27</item>               <!-- 27 -->
+        <item>o28</item>               <!-- 28 -->
+        <item>o29</item>               <!-- 29 -->
+        <item>o30</item>               <!-- 30 -->
+        <item>031</item>               <!-- 31 -->
+        <item>032</item>               <!-- 32 -->
+    </string-array>
+
+    <string-array name="input_JT350">
+        <item> </item>
+        <item>i1_PedanaPinza</item>                 <!-- 1 -->
+        <item>i2_PedanaStart</item>                 <!-- 2 -->
+        <item>i3_PEDANA_PINZA2</item>               <!-- 3 -->
+        <item>i4_Pressostato</item>                 <!-- 4 -->
+        <item>i5_ON_Emg</item>                      <!-- 5 -->
+        <item>i6_AllarmeFilo</item>                 <!-- 6 -->
+        <item>i7_FcZeroX</item>                     <!-- 7 -->
+        <item>i8</item>                             <!-- 8 -->
+        <item>i9_FcZeroY</item>                     <!-- 9 -->
+        <item>i10</item>                            <!-- 10 -->
+        <item>i11_C1_FcZeroAgo</item>               <!-- 11 -->
+        <item>i12</item>                            <!-- 12 -->
+        <item>i13_SENS_PALLET_DX</item>             <!-- 13 -->
+        <item>i14_SENS_PALLET_SX</item>             <!-- 14 -->
+        <item>i15_FcZeroCroch</item>                <!-- 15 -->
+        <item>i16</item>                            <!-- 16 -->
+        <item>i17</item>                            <!-- 17 -->
+        <item>i18_ZERO_ROT_SOPRA</item>             <!-- 18 -->
+        <item>i19</item>                            <!-- 19 -->
+        <item>i20_ZERO_ROT_SOTTO</item>             <!-- 20 -->
+        <item>i21_SICURA_SPORTELLO</item>           <!-- 21 -->
+        <item>i22_StopCuci</item>                   <!-- 22 -->
+        <item>i23</item>               <!-- 23 -->
+        <item>i24</item>               <!-- 24 -->
+        <item>i25</item>               <!-- 25 -->
+        <item>i26</item>               <!-- 26 -->
+        <item>i27</item>               <!-- 27 -->
+        <item>i28</item>               <!-- 28 -->
+        <item>i29</item>               <!-- 29 -->
+        <item>i30</item>               <!-- 30 -->
+        <item>i31</item>               <!-- 31 -->
+        <item>i32</item>               <!-- 32 -->
+    </string-array>
+
+    <string-array name="input_JT318M">
+        <item> </item>
+        <item>i1 PedanaPinza</item>                 <!-- 1 -->
+        <item>i2 PedanaStart</item>                 <!-- 2 -->
+        <item>i3 Sgancio pallet</item>               <!-- 3 -->
+        <item>i4 Pressostato</item>                 <!-- 4 -->
+        <item>i5 Enable macchina</item>             <!-- 5 -->
+        <item>i6 Home X</item>                      <!-- 6 -->
+        <item>i7 Sens pallet dx</item>              <!-- 7 -->
+        <item>i8 Sens pallet sx</item>              <!-- 8 -->
+        <item>i9 Home Y</item>                      <!-- 9 -->
+        <item>i10 Stop Cucitura</item>              <!-- 10 -->
+        <item>i11 Home Ago</item>                   <!-- 11 -->
+        <item>i12</item>                <!-- 12 -->
+        <item>i13</item>                <!-- 13 -->
+        <item>i14</item>                <!-- 14 -->
+        <item>i15</item>                <!-- 15 -->
+        <item>i16</item>                <!-- 16 -->
+        <item>i17</item>                <!-- 17 -->
+        <item>i18</item>                <!-- 18 -->
+        <item>i19</item>                <!-- 19 -->
+        <item>i20</item>                <!-- 20 -->
+        <item>i21</item>                <!-- 21 -->
+        <item>i22</item>                <!-- 22 -->
+        <item>i23</item>               <!-- 23 -->
+        <item>i24</item>               <!-- 24 -->
+        <item>i25</item>               <!-- 25 -->
+        <item>i26</item>               <!-- 26 -->
+        <item>i27</item>               <!-- 27 -->
+        <item>i28</item>               <!-- 28 -->
+        <item>i29</item>               <!-- 29 -->
+        <item>i30</item>               <!-- 30 -->
+        <item>i31</item>               <!-- 31 -->
+        <item>i32</item>               <!-- 32 -->
+    </string-array>
+    <string-array name="AllarmiCN_Descrizione_JAM">
+        <item>  </item>  <!-- 0 //emergenza all'accensione -->
+        <item>1) Rilasciare il pulsante di emergenza e premere il pulsante verde  (FUN90 2)</item>  <!-- 1 -->
+        <item>2) Manca aria (FUN90 3)</item>  <!-- 2 -->
+        <item>3) Allarme driver X (FUN90 4)</item>  <!-- 3 -->
+        <item>4) Allarme driver Y (FUN90 5)</item>  <!-- 4 -->
+        <item>5) Allarme scheda solenoidi (FUN90 6)</item>  <!-- 5 -->
+        <item>6) Allarme FUN90 7</item>  <!-- 6 -->
+
+        <item>7) Errore di inseguimento asse Asse AGO1</item>  <!-- 7 -->
+        <item>8) Errore di inseguimento asse Crochet1</item>  <!-- 8 -->
+        <item>9) Errore di inseguimento asse Rotaz Up</item>  <!-- 9 -->
+        <item>10) Errore di inseguimento asse Rotaz Down</item>  <!-- 10 -->
+
+
+        <item>13) Errore azzeramento asse X1</item>  <!-- 13 -->
+        <item>14) Errore azzeramento asse Y1</item>  <!-- 14 -->
+        <item>15) Errore azzeramento asse Ago1</item>  <!-- 15 -->
+        <item>16) Errore azzeramento asse Crochet1</item>  <!-- 16 -->
+        <item>17) Errore azzeramento asse Rotaz Up</item>  <!-- 17 -->
+        <item>18) Errore azzeramento asse Rotaz Down</item>  <!-- 18 -->
+
+
+        <item>23) Attesa rilascio micro di zero asse X1</item>  <!-- 23 -->
+        <item>24) Attesa rilascio micro di zero asse Y1</item>  <!-- 24 -->
+        <item>25) Attesa rilascio micro di zero asse Ago1</item>  <!-- 25 -->
+        <item>26) Attesa rilascio micro di zero asse Crochet1</item>  <!-- 26 -->
+        <item>27) Attesa rilascio micro di zero asse Rotaz Up</item>  <!-- 27 -->
+        <item>28) Attesa rilascio micro di zero asse Rotaz Down</item>  <!-- 28 -->
+
+
+        <item>33) Mcpu timeout driver</item>  <!--33 -->
+        <item>34) Ago timeout driver</item>  <!--34 -->
+        <item>35) Crochet timeout driver</item>  <!--35 -->
+
+
+        <item>39) Error Ethercat driver Mcpuu</item>  <!--39 -->
+        <item>40) Error Ethercat driver Ago</item>  <!--40 -->
+        <item>41) Error Ethercat driver Crochet</item>  <!--41 -->
+
+    </string-array>
+</resources>

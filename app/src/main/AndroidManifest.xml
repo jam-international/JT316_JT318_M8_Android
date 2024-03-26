@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jam_int.jt316_jt318_m8">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        tools:replace="android:icon"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.jam_int.jt316_jt318_m8.MainActivity"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Select_file_to_CN"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Tool_page"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Modifica_programma"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.PopUpSelectFolder"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Code_page"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Usb_Files_Activity"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Parametri_page"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Page_Test_IO"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Z_Ago"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Delta_parametri"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Debug"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Upgrade_activity"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Copy_Files_Activity"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.Report_to_Usb_activity"/>
+        <activity android:name="com.jam_int.jt316_jt318_m8.PopUpSettings" android:theme="@style/myDialog" />
+        <activity android:name="com.jam_int.jt316_jt318_m8.PopUpReset" android:theme="@style/myDialog" />
+        <activity android:name=".PopUpAlarm" />
+
+
+
+        <activity android:name="com.jam_int.jt316_jt318_m8.Emergency_page">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+</manifest>

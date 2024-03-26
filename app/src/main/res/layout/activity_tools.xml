@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_sgancio_ago"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/ic_sblocca_ago"
+        app:layout_constraintBottom_toBottomOf="@+id/button_zero_sensori"
+        app:layout_constraintStart_toEndOf="@+id/button_zero_sensori" />
+
+    <Button
+        android:id="@+id/button_pagina_par_udf_C"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/pag_par_prog"
+        android:onClick="On_click_par_udf"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_pagina_par"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/pag_par_mac"
+        android:onClick="On_click_par_Testa"
+        app:layout_constraintStart_toEndOf="@+id/button_pagina_par_udf_C"
+        app:layout_constraintTop_toTopOf="@+id/button_pagina_par_udf_C" />
+
+    <Button
+        android:id="@+id/button_pagina_par_admin"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/pag_par_admin"
+        android:onClick="On_click_par_Admin"
+        app:layout_constraintStart_toEndOf="@+id/btn_sgancio_ago"
+        app:layout_constraintTop_toTopOf="@+id/btn_sgancio_ago" />
+
+    <Button
+        android:id="@+id/button_usb"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/tasco_usb"
+        android:onClick="OnclickUsbPage"
+        app:layout_constraintStart_toEndOf="@+id/button_pagina_par"
+        app:layout_constraintTop_toTopOf="@+id/button_pagina_par" />
+
+    <Button
+        android:id="@+id/button_test_io"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/tasto_test_io"
+        android:onClick="onClick_test_io"
+        app:layout_constraintStart_toEndOf="@+id/button_Z_ago"
+        app:layout_constraintTop_toTopOf="@+id/button_Z_ago" />
+
+    <Button
+        android:id="@+id/button_upgrade_plc"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/tasto_upgrade_plc"
+        android:onClick="Button_update_plc_click"
+        app:layout_constraintStart_toEndOf="@+id/button_test_io"
+        app:layout_constraintTop_toTopOf="@+id/button_test_io" />
+
+    <Button
+        android:id="@+id/button_report_to_usb"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/tasto_report_to_usb"
+        android:onClick="on_click_report_to_usb"
+        app:layout_constraintStart_toEndOf="@+id/button_upgrade_plc"
+        app:layout_constraintTop_toTopOf="@+id/button_test_io" />
+
+    <Button
+        android:id="@+id/button_zero_sensori"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/tasto_zero_xy"
+        android:onClick="on_click_zero_sensori"
+        app:layout_constraintStart_toEndOf="@+id/button_Delta"
+        app:layout_constraintTop_toTopOf="@+id/button_Delta" />
+
+    <Button
+        android:id="@+id/button_backup_cn_su_hmi"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/tasto_backup_cn_su_hmi"
+        android:onClick="on_click_backup_cn_su_hmi"
+        app:layout_constraintStart_toEndOf="@+id/button_setting"
+        app:layout_constraintTop_toTopOf="@+id/button_setting" />
+
+    <Button
+        android:id="@+id/button_exit"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/tasto_exit"
+        android:onClick="onClick_exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button_disegna"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="148dp"
+        android:background="@drawable/tasto_disegna"
+        android:onClick="on_click_modifica_programma"
+        app:layout_constraintStart_toEndOf="@+id/button_upgrade_plc"
+        app:layout_constraintTop_toTopOf="@+id/button_test_io" />
+
+    <Button
+        android:id="@+id/button_copia_file"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/tasto_copia_file"
+        android:onClick="on_click_copia_file"
+        app:layout_constraintStart_toEndOf="@+id/button_usb"
+        app:layout_constraintTop_toTopOf="@+id/button_usb" />
+
+    <Button
+        android:id="@+id/button_setting"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="28dp"
+        android:background="@drawable/tasto_setting"
+        android:onClick="on_click_setting"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/button_pagina_par_admin"
+        app:layout_constraintTop_toTopOf="@+id/button_Delta" />
+
+    <Button
+        android:id="@+id/button_password"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/ic_password"
+        android:onClick="on_click_password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/button_pagina_par_udf_C" />
+
+    <Button
+        android:id="@+id/button_Delta"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/button_delta"
+        android:onClick="on_click_Delta"
+        app:layout_constraintStart_toStartOf="@+id/button_Z_ago"
+        app:layout_constraintTop_toBottomOf="@+id/button_Z_ago" />
+
+    <Button
+        android:id="@+id/button_Z_ago"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/tasto_z_ago"
+        android:onClick="Onclick_Z_Ago"
+        app:layout_constraintStart_toStartOf="@+id/button_pagina_par_udf_C"
+        app:layout_constraintTop_toBottomOf="@+id/button_pagina_par" />
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

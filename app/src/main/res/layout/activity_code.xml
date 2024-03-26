@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/editText_set_angolo"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Set Angolo :"
+        app:layout_constraintStart_toStartOf="@+id/editText_angolo_iniziale"
+        app:layout_constraintTop_toBottomOf="@+id/editText_angolo_iniziale" />
+
+    <EditText
+        android:id="@+id/editText_numeri_punti_angolo"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Rotazione in punti :"
+        app:layout_constraintStart_toEndOf="@+id/editText_set_angolo"
+        app:layout_constraintTop_toBottomOf="@+id/editText_angolo_iniziale" />
+
+    <EditText
+        android:id="@+id/editText_tension"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:text="Thread tension:"
+        android:inputType="none"
+        app:layout_constraintStart_toStartOf="@+id/editText_slow"
+        app:layout_constraintTop_toBottomOf="@+id/editText_slow" />
+
+    <Button
+        android:id="@+id/button_exit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/tasto_exit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/tasto_save"
+        app:layout_constraintEnd_toStartOf="@+id/button_exit"
+        app:layout_constraintTop_toTopOf="@+id/button_exit" />
+
+    <Button
+        android:id="@+id/button_op3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/tasto_code_op3"
+        app:layout_constraintStart_toEndOf="@+id/button_op2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_rasafilo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/tasto_code_rasafilo"
+        app:layout_constraintStart_toEndOf="@+id/button_op3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_op2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/tasto_code_op2"
+        app:layout_constraintStart_toEndOf="@+id/button_op1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_op1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="112dp"
+        android:background="@drawable/tasto_code_op1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_slow"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Slow speed (rpm):"
+        app:layout_constraintStart_toStartOf="@+id/button_op1"
+        app:layout_constraintTop_toBottomOf="@+id/button_op1" />
+
+    <EditText
+        android:id="@+id/editText_angolo_iniziale"
+        android:layout_width="163dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:inputType="none"
+        android:text="Angolo iniziale :"
+        app:layout_constraintStart_toStartOf="@+id/editText_tension"
+        app:layout_constraintTop_toBottomOf="@+id/editText_tension" />
+
+    <TextView
+        android:id="@+id/textView_slow_valore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="press to set"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_slow"
+        app:layout_constraintStart_toEndOf="@+id/editText_slow" />
+
+    <TextView
+        android:id="@+id/textView_tension_valore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="press to set"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_tension"
+        app:layout_constraintStart_toStartOf="@+id/textView_slow_valore" />
+
+    <TextView
+        android:id="@+id/textView_angolo_iniziale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="press to set angle"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_angolo_iniziale"
+        app:layout_constraintStart_toStartOf="@+id/textView_tension_valore" />
+
+    <TextView
+        android:id="@+id/textView_set_angolo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="press to set angle"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_set_angolo"
+        app:layout_constraintStart_toStartOf="@+id/textView_angolo_iniziale" />
+
+    <TextView
+        android:id="@+id/textView_set_punti_rotaz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="12dp"
+        android:text="press to set number of stitches"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_numeri_punti_angolo"
+        app:layout_constraintStart_toEndOf="@+id/editText_numeri_punti_angolo" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1278dp"
+        android:layout_height="5dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="366dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

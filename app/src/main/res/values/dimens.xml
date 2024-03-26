@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="main_activity_framelayout_width">330dp</dimen>
+    <dimen name="main_activity_framelayout_height">300dp</dimen>
+
+    <dimen name="modifica_programma_activity_framelayout_width">410dp</dimen>
+    <dimen name="modifica_programma_activity_framelayout_height">337dp</dimen>
+
+
+</resources>

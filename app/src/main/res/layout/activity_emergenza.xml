@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/button_load_R"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="20dp"
+
+        android:background="@drawable/tasto_load_prog"
+        android:onClick="On_click_Load"
+        app:layout_constraintBottom_toTopOf="@+id/btn_pagina_tools2"
+        app:layout_constraintStart_toStartOf="@+id/btn_pagina_tools2" />
+
+    <TextView
+        android:id="@+id/textView_macchina"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="72dp"
+        android:onClick="on_click_machine_model"
+        android:text="text_macchina"
+        android:textColor="@color/opaque_red"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_connection_status" />
+
+    <TextView
+        android:id="@+id/textView_programma_in_esecuzione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Programma in esecuzione:"
+        android:textColor="@color/opaque_red"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintStart_toEndOf="@+id/constraintLayout" />
+
+    <TextView
+        android:id="@+id/textView_riga_in_esecuzione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Riga in esecuzione:"
+        android:textColor="@color/opaque_red"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_programma_in_esecuzione"
+        app:layout_constraintStart_toStartOf="@+id/textView_programma_in_esecuzione" />
+
+    <TextView
+        android:id="@+id/textView_cnt_comunicazione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cnt:"
+        android:textColor="@color/opaque_red"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/textView_programma_in_esecuzione"
+        app:layout_constraintTop_toBottomOf="@+id/textView_programma_in_esecuzione" />
+
+    <Button
+        android:id="@+id/btn_pagina_tools2"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/tasto_pagina_tools"
+        android:onClick="onclick_pagina_tools"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btn_debug"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/debug"
+        android:onClick="onclick_debug"
+        app:layout_constraintBottom_toTopOf="@+id/button_load_R"
+        app:layout_constraintStart_toStartOf="@+id/button_load_R" />
+
+    <Button
+        android:id="@+id/button_verde"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/tasto_verde"
+        android:onClick="onclick_buttonv_dito"
+        android:textSize="85sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_connection_status"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:background="#fc0303"
+        android:text="No Connect"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_eth_operational"
+        app:layout_constraintTop_toTopOf="@+id/btn_eth_operational" />
+
+    <Button
+        android:id="@+id/btn_eth_operational"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#fc0303"
+        android:text="Eth Operational"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/ScrollView_allarm"
+        android:layout_width="737dp"
+        android:layout_height="220dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_verde">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/allarm_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Allarm:"
+                android:textColor="@color/opaque_red"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/textView_allarmi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_allarm_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onclick_alarm_more"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="@+id/ScrollView_allarm"
+        app:layout_constraintStart_toEndOf="@+id/ScrollView_allarm" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="737dp"
+        android:layout_height="206dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/border1"
+        app:layout_constraintStart_toStartOf="@+id/ScrollView_allarm"
+        app:layout_constraintTop_toBottomOf="@+id/ScrollView_allarm">
+
+        <TextView
+            android:id="@+id/textView_barra_sotto"
+            android:layout_width="498dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:text="Hello"
+            app:layout_constraintBottom_toBottomOf="@+id/textView_scrittra_device"
+            app:layout_constraintStart_toEndOf="@+id/textView_scrittra_device" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="92dp"
+            android:layout_height="37dp"
+            android:layout_marginStart="16dp"
+            android:text="Version:"
+            android:textColor="@color/opaque_red"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_testo_HMI_ver"
+            android:layout_width="31dp"
+            android:layout_height="29dp"
+            android:text="..."
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_testo_PLC_ver"
+            app:layout_constraintTop_toTopOf="@+id/textView_scritta_ver_HMI" />
+
+        <TextView
+            android:id="@+id/textView_scritta_ver_PLC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ver PLC software:"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_scritta_ver_firm"
+            app:layout_constraintTop_toBottomOf="@+id/textView_scritta_ver_firm" />
+
+        <TextView
+            android:id="@+id/textView_testo_Firmware"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="........................."
+            android:textSize="22sp"
+            app:layout_constraintStart_toEndOf="@+id/textView_scritta_ver_firm"
+            app:layout_constraintTop_toTopOf="@+id/textView_scritta_ver_firm" />
+
+        <TextView
+            android:id="@+id/textView_scritta_ver_HMI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Ver HMI software:"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_scritta_ver_PLC"
+            app:layout_constraintTop_toBottomOf="@+id/textView_scritta_ver_PLC" />
+
+        <TextView
+            android:id="@+id/textView_scrittra_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="44dp"
+            android:text="Device:"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_scritta_ver_PLC"
+            app:layout_constraintTop_toBottomOf="@+id/textView_scritta_ver_PLC" />
+
+        <TextView
+            android:id="@+id/textView_scritta_ver_firm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Ver PLC Firmware:"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView_testo_PLC_ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="........................."
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_testo_Firmware"
+            app:layout_constraintTop_toTopOf="@+id/textView_scritta_ver_PLC" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="357dp"
+        android:layout_height="291dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/border1"
+        app:layout_constraintStart_toStartOf="@+id/ScrollView_allarm"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status:"
+            android:textColor="@color/opaque_red"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax3_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax3 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_ax2_home" />
+
+        <CheckBox
+            android:id="@+id/checkBox_status_cn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Status CN"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax5_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax5 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_ax4_home" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax4_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax4 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_ax3_home" />
+
+        <CheckBox
+            android:id="@+id/checkBox_pressostato"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Air pressure"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_status_cn" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax1_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax1 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_pressostato" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax2_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax2 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_ax1_home"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_ax1_home" />
+
+        <CheckBox
+            android:id="@+id/checkBox_ax6_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ax6 home done"
+            app:layout_constraintStart_toStartOf="@+id/checkBox_status_cn"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox_ax5_home" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView_battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="64dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_macchina"
+        app:srcCompat="@drawable/battery_full" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
