@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: artifacts:rS232Support-release:unspecified" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/rS232Support-release/build/.transforms/92082414b8baff042746f1a4fee83d66/jetified-rS232Support-release/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/rS232Support-release/build/.transforms/92082414b8baff042746f1a4fee83d66/jetified-rS232Support-release/res" />
+      <root url="file://$PROJECT_DIR$/rS232Support-release/build/.transforms/92082414b8baff042746f1a4fee83d66/jetified-rS232Support-release/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

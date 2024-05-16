@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.mjdev:libaums:0.6.0@aar" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7a9d59170ea129c0693bf28b7ad0682e/jetified-libaums-0.6.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/7a9d59170ea129c0693bf28b7ad0682e/jetified-libaums-0.6.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.mjdev/libaums/0.6.0/8ecc477e332967e551a61d55021ace77dead5545/libaums-0.6.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.mjdev/libaums/0.6.0/6054227fc49517ac424d42e9732af837ff432a00/libaums-0.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -4,10 +4,11 @@ android {
     compileSdkVersion 28
     signingConfigs {
         jamint {
-            storeFile file('D:\\GitHub\\JT316_JT316_M8_Android\\app\\src\\main\\KayJam.jks')
+            storeFile file('D:\\GitHub\\JT316_JT318_M8_Android\\app\\src\\main\\KayJam.jks')
             storePassword '07167872'
             keyAlias = 'KeyJam'
             keyPassword '07167872'
+
         }
 
     }

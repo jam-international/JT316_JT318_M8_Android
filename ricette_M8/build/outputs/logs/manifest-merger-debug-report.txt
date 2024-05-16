@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
 	package
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:2:5-33
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:2:5-33
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:1-2:36
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:11-69
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml:1:11-69
 uses-sdk
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		ADDED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
-		INJECTED from D:\GitHub\JT316_JT316_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		ADDED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
+		INJECTED from D:\GitHub\JT316_JT318_M8_Android\ricette_M8\src\main\AndroidManifest.xml
