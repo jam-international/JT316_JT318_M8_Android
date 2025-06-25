@@ -67,6 +67,8 @@ VN3804 ID pagina
 1005 = Page Test I O
 1006 = Parametri
  */
+
+// ver 6.8 = 25/06/2025 sistemato codici
 public class Emergency_page extends Activity {
     ShoppingList sl;
     Thread thread_emerg;
@@ -167,8 +169,8 @@ public class Emergency_page extends Activity {
         };
 
         try {
-            int versionCode = BuildConfig.VERSION_CODE;
-            ver_softwareHMI.setText(""+versionCode);
+          //  int versionCode = BuildConfig.VERSION_CODE;
+            ver_softwareHMI.setText(Values.HMI_softver);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -649,21 +651,23 @@ public class Emergency_page extends Activity {
                                 //else TextView_allarmi.setText("");
 
                                 TextView_testo_PLC_ver.setText((String) MultiCmd_VA31_Ver_PLC.getValue().toString());
+                                try {
+                                    if ((Double) MultiCmd_Vn2_allarmi_da_CN.getValue() != 0) {
+                                        Double err = (Double) MultiCmd_Vn2_allarmi_da_CN.getValue();
+                                        int i = err.intValue();
+                                        String Stringa_allarme = "";
 
-                                if((Double)MultiCmd_Vn2_allarmi_da_CN.getValue() !=0){
-                                    Double err = (Double)MultiCmd_Vn2_allarmi_da_CN.getValue();
-                                    int i = err.intValue();
-                                    String Stringa_allarme = "";
-
-                                    tab_names = getResources().getStringArray(R.array.allarmi_vn2);
-                                    Stringa_allarme = tab_names[i];
-                                    str_allarmi = str_allarmi + Stringa_allarme;
-                                    Mci_Vn2_allarmi_da_CN.valore = 0.0d;
-                                    Mci_Vn2_allarmi_da_CN.write_flag = true;
-                                    TextView_allarmi.setText(str_allarmi);
-                                    str_allarmi_old = str_allarmi;
+                                        tab_names = getResources().getStringArray(R.array.allarmi_vn2);
+                                        Stringa_allarme = tab_names[i];
+                                        str_allarmi = str_allarmi + Stringa_allarme;
+                                        Mci_Vn2_allarmi_da_CN.valore = 0.0d;
+                                        Mci_Vn2_allarmi_da_CN.write_flag = true;
+                                        TextView_allarmi.setText(str_allarmi);
+                                        str_allarmi_old = str_allarmi;
+                                    }
+                                }catch (Exception e){
+                                    int y = 9;
                                 }
-
 
                                 ScriviEmergenza();
 
@@ -1364,6 +1368,7 @@ public class Emergency_page extends Activity {
                     testo = testo + d ;
                     findJAMCode = true;
                 } //41  Emergenza da nodo Ethercat CAricatore
+                /*
                 if (d.contains("62050104")) {
                     d = Descrizioni[42];
                     testo = testo + d + "\n";
@@ -1379,7 +1384,7 @@ public class Emergency_page extends Activity {
                     testo = testo + d + "\n";
                     findJAMCode = true;
                 } //44  Emergenza da nodo Ethercat CAricatore
-
+*/
 
                 if (d.contains("140045900") || d.contains("240045900") || d.contains("340045900")) {  //"Automatic cycle interrupted due to an emergency
                     d = getString(R.string.ErroreCicloAuto);

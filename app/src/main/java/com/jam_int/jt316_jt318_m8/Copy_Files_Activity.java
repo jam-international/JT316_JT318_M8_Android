@@ -30,7 +30,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Recipe;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -391,7 +391,7 @@ public class Copy_Files_Activity extends Activity {
                                                     copyFile(FileSelezionato, DestinationLocation);
                                                     Values.File_XML_path_R = DestinationLocation.getPath();
 
-                                                    Ricetta r = new Ricetta();
+                                                    Recipe r = new Recipe();
                                                     try {
                                                         r.open(FileSelezionato);
                                                         TolgoSelezioneVisiva(LvList);
@@ -449,7 +449,7 @@ public class Copy_Files_Activity extends Activity {
                                             copyFile(FileSelezionato, DestinationLocation);
                                             Values.File_XML_path_R = DestinationLocation.getPath();
 
-                                            Ricetta r = new Ricetta();
+                                            Recipe r = new Recipe();
                                             try {
                                                 r.open(FileSelezionato);
                                                 TolgoSelezioneVisiva(LvList);
@@ -803,7 +803,7 @@ public class Copy_Files_Activity extends Activity {
         File file1 = new File(dir, "file_empty.usr");
 
         if(!file.exists() && !file1.exists()){
-            Ricetta r = new Ricetta();
+            Recipe r = new Recipe();
             r.setDrawPosition(new PointF(0.1f, 0f));
             r.drawFeedTo(new PointF(10f,10f));
             r.drawFeedTo(new PointF(0.1f, 0f));
@@ -830,7 +830,7 @@ public class Copy_Files_Activity extends Activity {
 
         if ((FileSelezionato != null)) {
             if(!FileSelezionato.isDirectory()) {
-                final Ricetta r = new Ricetta();
+                final Recipe r = new Recipe();
 
                 try {
                     r.open(FileSelezionato);
@@ -1214,7 +1214,7 @@ public class Copy_Files_Activity extends Activity {
                                             copyFile(FileSelezionato, DestinationLocation);
                                             Values.File_XML_path_R = DestinationLocation.getPath();
 
-                                            Ricetta r = new Ricetta();
+                                            Recipe r = new Recipe();
                                             try {
                                                 r.open(FileSelezionato);
                                                 TolgoSelezioneVisiva(LvList);
@@ -1270,7 +1270,7 @@ public class Copy_Files_Activity extends Activity {
                                     copyFile(FileSelezionato, DestinationLocation);
                                     Values.File_XML_path_R = DestinationLocation.getPath();
 
-                                    Ricetta r = new Ricetta();
+                                    Recipe r = new Recipe();
                                     try {
                                         r.open(FileSelezionato);
                                         TolgoSelezioneVisiva(LvList);

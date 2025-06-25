@@ -304,8 +304,8 @@
         <item>i3 Open clamp pedal (bobbin case)</item>               <!-- 3 -->
         <item>i4 Air sensor</item>                 <!-- 4 -->
         <item>i5 Emergency switch</item>             <!-- 5 -->
-        <item>i6 Home X Axis</item>                      <!-- 6 -->
-        <item>i7 Right clamp sensor</item>              <!-- 7 -->
+        <item>i6 Right clamp sensor</item>                      <!-- 6 -->
+        <item>i7 Home X Axis</item>              <!-- 7 -->
         <item>i8 Left Clamp sensor</item>              <!-- 8 -->
         <item>i9 Home Y Axis</item>                      <!-- 9 -->
         <item>i10 Stop sewing switch</item>              <!-- 10 -->
@@ -340,35 +340,42 @@
         <item>4) Driver Y Alarm (FUN90 5)</item>  <!-- 4 -->
         <item>5) Solenoid board alarm (FUN90 6)</item>  <!-- 5 -->
         <item>6) Alarm FUN90 7</item>  <!-- 6 -->
-
         <item>7) Needle Motor following error, check the needle mechanics and motor driver</item>  <!-- 7 -->
         <item>8) Hook Motor following error, check the hook mechanics and motor driver</item>  <!-- 8 -->
         <item>9) Rotaz Up Motor following error, check the Loader mechanics and motor driver</item>  <!-- 9 -->
         <item>10) Rotaz Down Motor following error, check the needle2 mechanics and motor driver</item>  <!-- 10 -->
-
-
+        <item>11) empty</item>  <!-- 11 -->
+        <item>12) empty</item>  <!-- 12 -->
         <item>13) X Motor Homing error, check the X mechanics and motor driver</item>  <!-- 13 -->
         <item>14) Y Motor Homing error, check the Y mechanics and motor driver</item>  <!-- 14 -->
         <item>15) Needle Motor Homing error, check the needle mechanics and motor driver</item>  <!-- 15 -->
         <item>16) Hook Motor Homing error, check the hook mechanics and motor driver</item>  <!-- 16 -->
         <item>17) Rotaz Up Motor Homing error,check the loader mechanics and motor driver</item>  <!-- 17 -->
         <item>18) Rotaz Down Motor Homing error, check the X2 mechanics and motor driver</item>  <!-- 18 -->
-
-
+        <item>19) empty</item>  <!-- 19 -->
+        <item>20) empty</item>  <!-- 20 -->
+        <item>21) empty</item>  <!-- 21 -->
+        <item>22) empty</item>  <!-- 22 -->
         <item>23) X Motor homing release error, check the X mechanics and motor driver</item>  <!-- 23 -->
         <item>24) Y Motor homing release error, check the Y mechanics and motor driver</item>  <!-- 24 -->
         <item>25) Needle Motor homing release error, check the needle mechanics and motor driver</item>  <!-- 25 -->
         <item>26) Hook Motor homing release error, check the hook mechanics and motor driver</item>  <!-- 26 -->
         <item>27) Rotaz Up Motor homing release error,check the loader mechanics and motor driver</item>  <!-- 27 -->
         <item>28) Rotaz Down Motor homing release error, check the X2 mechanics and motor driver</item>  <!-- 28 -->
-
+        <item>29) empty</item>  <!-- 29 -->
+        <item>30) empty</item>  <!-- 30 -->
+        <item>31) empty</item>  <!-- 31 -->
+        <item>32) empty</item>  <!-- 32 -->
         <item>33) Mcpu timeout driver</item>  <!--33 -->
         <item>34) Needle timeout driver</item>  <!--34 -->
         <item>35) Hook timeout driver</item>  <!--35 -->
-
+        <item>36) empty</item>  <!-- 36 -->
+        <item>37) empty</item>  <!-- 37 -->
+        <item>38) empty</item>  <!-- 38 -->
         <item>39) Mcpu Ethercat error driver</item>  <!--39 -->
         <item>40) Needle Ethercat error driver</item>  <!--40 -->
         <item>41) Hook Ethercat error driver</item>  <!--41 -->
 
     </string-array>
 </resources>
+

@@ -24,8 +24,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static com.jamint.ricette.JamPointCode.TipiCodici.SPEED_M8;
-import static com.jamint.ricette.JamPointCode.TipiCodici.TENS_M8;
+import static com.jamint.recipes.JamPointCode.TipiCodici.SPEED_M8;
+import static com.jamint.recipes.JamPointCode.TipiCodici.TENS_M8;
 
 public class Ricetta
 {
@@ -3429,8 +3429,8 @@ int num = splitElementAtStep(step, 1);
     private void copy(Ricetta source, Ricetta dest)
     {
         //ATTENZIONE: RIPORTARE SEMPRE TUTTE LE PROPERTY ESISTENTI!!
-        dest.descrizioneRicetta = source.descrizioneRicetta;
-        dest.numeroRicetta = source.numeroRicetta;
+        dest.descrizioneRicetta = source.descrizione.Recipe.
+        dest.numeroRicetta = source.numero.Recipe.
         dest.pcX = source.pcX;
         dest.pcY = source.pcY;
 

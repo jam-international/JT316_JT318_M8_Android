@@ -62,5 +62,6 @@ public class Values {
     public static int UdfVelRallRPM = 300;
     public static int Udf_FeedG0 = 80000;
 
+    static String ver_firmware,PLCver,HMI_softver ="6.8";
 
 }

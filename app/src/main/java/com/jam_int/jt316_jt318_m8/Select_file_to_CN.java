@@ -19,8 +19,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jamint.ricette.Element;
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Element;
+import com.jamint.recipes.Recipe;
 
 import java.io.File;
 import java.io.IOException;
@@ -339,11 +339,11 @@ public class Select_file_to_CN extends Activity {
     private void InviaFileSlezionato(File fileSelezionato) {
 
 
-        Ricetta ricetta = new Ricetta();
+        Recipe recipe = new Recipe();
         try
         {
-            ricetta.open(FileSelezionato);
-            if(ricetta.elements.size()!=0) {
+            recipe.open(FileSelezionato);
+            if(recipe.elements.size()!=0) {
                 String path_xml = FileSelezionato.getPath();
                 String path_udf = path_xml.replace(".xml", ".udf");
 
@@ -351,16 +351,16 @@ public class Select_file_to_CN extends Activity {
                     File fileUdf = new File(path_udf);
 
 
-                    if (ricetta.getPoints().size() == 0) {
-                        for (Element elem : ricetta.elements)
+                    if (recipe.getPoints().size() == 0) {
+                        for (Element elem : recipe.elements)
                             elem.createSteps();
 
-                        ricetta.save(FileSelezionato);
+                        recipe.save(FileSelezionato);
                     }
                     try {
-                        ricetta.numeroRicetta = 1;
+                        recipe.recipeNumber = 1;
 
-                        ricetta.exportToUdf(fileUdf);
+                        recipe.exportToUdf(fileUdf);
 
 
 
@@ -447,7 +447,7 @@ public class Select_file_to_CN extends Activity {
     //*************************************************************************************************
     public File XmlToUsr(File file_xml) throws IOException {
 
-        Ricetta r = new Ricetta();
+        Recipe r = new Recipe();
         try {
             r.open(file_xml);
         }catch(Exception e)

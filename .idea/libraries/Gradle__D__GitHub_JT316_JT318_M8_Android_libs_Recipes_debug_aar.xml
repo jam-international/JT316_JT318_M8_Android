@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: D./GitHub/JT316_JT318_M8_Android/libs/Recipes-debug.aar" external-system-id="GRADLE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aebffd3d90521d0f133d880988ae305d/jetified-Recipes-debug/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aebffd3d90521d0f133d880988ae305d/jetified-Recipes-debug/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/aebffd3d90521d0f133d880988ae305d/jetified-Recipes-debug/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

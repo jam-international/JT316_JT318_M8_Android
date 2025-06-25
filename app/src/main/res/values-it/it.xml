@@ -306,8 +306,8 @@
         <item>i3 Sgancio pallet</item>               <!-- 3 -->
         <item>i4 Pressostato</item>                 <!-- 4 -->
         <item>i5 Enable macchina</item>             <!-- 5 -->
-        <item>i6 Home X</item>                      <!-- 6 -->
-        <item>i7 Sens pallet dx</item>              <!-- 7 -->
+        <item>i6 Sens pallet dx</item>                      <!-- 6 -->
+        <item>i7 Home X</item>              <!-- 7 -->
         <item>i8 Sens pallet sx</item>              <!-- 8 -->
         <item>i9 Home Y</item>                      <!-- 9 -->
         <item>i10 Stop Cucitura</item>              <!-- 10 -->
@@ -347,29 +347,34 @@
         <item>8) Errore di inseguimento asse Crochet1</item>  <!-- 8 -->
         <item>9) Errore di inseguimento asse Rotaz Up</item>  <!-- 9 -->
         <item>10) Errore di inseguimento asse Rotaz Down</item>  <!-- 10 -->
-
-
+        <item>11) empty</item>  <!-- 11 -->
+        <item>12) empty</item>  <!-- 12 -->
         <item>13) Errore azzeramento asse X1</item>  <!-- 13 -->
         <item>14) Errore azzeramento asse Y1</item>  <!-- 14 -->
         <item>15) Errore azzeramento asse Ago1</item>  <!-- 15 -->
         <item>16) Errore azzeramento asse Crochet1</item>  <!-- 16 -->
         <item>17) Errore azzeramento asse Rotaz Up</item>  <!-- 17 -->
         <item>18) Errore azzeramento asse Rotaz Down</item>  <!-- 18 -->
-
-
+        <item>19) empty</item>  <!-- 19 -->
+        <item>20) empty</item>  <!-- 20 -->
+        <item>21) empty</item>  <!-- 21 -->
+        <item>22) empty</item>  <!-- 22 -->
         <item>23) Attesa rilascio micro di zero asse X1</item>  <!-- 23 -->
         <item>24) Attesa rilascio micro di zero asse Y1</item>  <!-- 24 -->
         <item>25) Attesa rilascio micro di zero asse Ago1</item>  <!-- 25 -->
         <item>26) Attesa rilascio micro di zero asse Crochet1</item>  <!-- 26 -->
         <item>27) Attesa rilascio micro di zero asse Rotaz Up</item>  <!-- 27 -->
         <item>28) Attesa rilascio micro di zero asse Rotaz Down</item>  <!-- 28 -->
-
-
+        <item>29) empty</item>  <!-- 29 -->
+        <item>30) empty</item>  <!-- 30 -->
+        <item>31) empty</item>  <!-- 31 -->
+        <item>32) empty</item>  <!-- 32 -->
         <item>33) Mcpu timeout driver</item>  <!--33 -->
         <item>34) Ago timeout driver</item>  <!--34 -->
         <item>35) Crochet timeout driver</item>  <!--35 -->
-
-
+        <item>36) empty</item>  <!-- 36 -->
+        <item>37) empty</item>  <!-- 37 -->
+        <item>38) empty</item>  <!-- 38 -->
         <item>39) Error Ethercat driver Mcpuu</item>  <!--39 -->
         <item>40) Error Ethercat driver Ago</item>  <!--40 -->
         <item>41) Error Ethercat driver Crochet</item>  <!--41 -->

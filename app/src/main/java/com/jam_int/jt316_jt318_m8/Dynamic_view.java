@@ -11,15 +11,17 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.jamint.ricette.CenterPointRadius;
-import com.jamint.ricette.Element;
-import com.jamint.ricette.ElementArc;
-import com.jamint.ricette.ElementFeed;
-import com.jamint.ricette.ElementLine;
-import com.jamint.ricette.ElementZigZag;
-import com.jamint.ricette.JamPointCode;
-import com.jamint.ricette.JamPointStep;
-import com.jamint.ricette.TrigMatGeo;
+import com.jamint.recipes.CenterPointRadius;
+import com.jamint.recipes.Element;
+import com.jamint.recipes.ElementArc;
+import com.jamint.recipes.ElementFeed;
+import com.jamint.recipes.ElementLine;
+import com.jamint.recipes.ElementLineZigZag;
+import com.jamint.recipes.JamPointCode;
+import com.jamint.recipes.JamPointStep;
+import com.jamint.recipes.MathGeoTri;
+import com.jamint.recipes.Recipe;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -348,7 +350,7 @@ public class Dynamic_view extends View {
                     paint.setStrokeCap(Paint.Cap.ROUND);
                     paint.setStyle(Paint.Style.STROKE);
 
-                    if (entita instanceof ElementLine || entita instanceof ElementZigZag) {
+                    if (entita instanceof ElementLine || entita instanceof ElementLineZigZag) {
                         if (entita.isSelected) {
                             paint.setColor(Color.YELLOW);
                         } else
@@ -381,7 +383,7 @@ public class Dynamic_view extends View {
                         else sweep = (360- ((ElementArc) entita).endAngle) + ((ElementArc) entita).startAngle;  //nel caso limite dove end =340 start = 19
 
 
-                        TrigMatGeo tmg = new TrigMatGeo();
+                        MathGeoTri tmg = new MathGeoTri();
                         CenterPointRadius cpr = tmg.getCenterPointRadius(entita.pStart, ((ElementArc) entita).pMiddle,entita.pEnd);
                         if(tmg.Sagitta(entita.pStart,entita.pEnd,cpr.radius,sweep) < 0.1){  //se la "freccia" dell'arco è piccola disegno una linea
                             paint.setColor(Color.YELLOW);
@@ -555,7 +557,7 @@ public class Dynamic_view extends View {
                 }
             }
 
-            for( JamPointCode code : item.ricetta.codes){
+            for( JamPointCode code : item.recipe.codes){
                 List_code.add(code);
             }
 

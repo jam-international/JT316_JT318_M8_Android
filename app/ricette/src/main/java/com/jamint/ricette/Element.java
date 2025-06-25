@@ -14,7 +14,7 @@ public abstract class Element implements IElement
 
     public String entity = java.util.UUID.randomUUID().toString();
     public Boolean isSelected = false;
-    public Ricetta ricetta;
+    public Ricetta .Recipe.
 
     public Element()
     {
@@ -31,7 +31,7 @@ public abstract class Element implements IElement
             pEnd.y = source.pEnd.y;
             passo = source.passo;
             isSelected = source.isSelected;
-            ricetta = source.ricetta;
+            ricetta = source..Recipe.
             entity = source.entity;
         }
     }

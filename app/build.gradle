@@ -15,10 +15,10 @@ android {
 
     defaultConfig {
         applicationId "com.jam_int.jt316_jt318_m8"
-        minSdkVersion 19
+        minSdkVersion 25
         targetSdkVersion 28
-        versionCode 6_7
-        versionName "6.7"
+        versionCode 6_8
+        versionName "6.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,8 +56,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(path: ':rS232Support-release')
-    implementation project(path: ':ricette_M8')
     implementation 'com.github.mjdev:libaums:0.6.0'
+    implementation files('D:\\GitHub\\JT316_JT318_M8_Android\\libs\\Recipes-debug.aar')
+    implementation 'com.google.code.gson:gson:2.8.7'
 
 
 }

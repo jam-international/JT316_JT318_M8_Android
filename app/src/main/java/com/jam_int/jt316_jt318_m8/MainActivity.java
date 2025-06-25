@@ -30,8 +30,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jamint.ricette.Element;
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Element;
+import com.jamint.recipes.Recipe;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,11 +70,11 @@ public class MainActivity extends Activity {
     TextView TextView_val_speed,TextView_punti_tot,TextView_punti_parziale,TextView_Cnt_spola,TextSpola_limite,TextView_errore,TextView_programma_in_esecuzione,TextView_riga_in_esecuzione,
             TextView_cnt_thread,TextView_val_production,Text_punti_da_saltare,TextView_cnt_connection,TextView_max_speed_value;
     Button Button_pagina_tools,Button_step_piu,Button_step_meno,Button_reset,Button_reset_spola,Button_test_cuci,Button_Sgancio_ago,Button_aggancio_automatico,Button_sgancio_automatico,
-            Button_partenza_automatica,Button_cambio_spola,Button_test_pinzafilo,Button_step_piu100,Button_step_meno100,Button_reset_allarm;
+            Button_partenza_automatica,Button_cambio_spola,Button_test_pinzafilo,Button_step_piu100,Button_step_meno100,Button_reset_allarm,btn_connection_status;
     SeekBar seekBar_speed;
     String Machine_model,File_XML_path;
     Integer[] Array_foto_allarmi;
-    Ricetta ricetta;
+    Recipe recipe;
     String[] tab_names = new String[]{};
     CoordPosPinza Coord_Pinza = new CoordPosPinza();
     FrameLayout frame_canvas;
@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
     final private static int RESULT_PAGE_TOOLS = 100;
     final private static int RESULT_PAGE_LOAD_UDF = 102;
     MachineLog machinelog;
-    int cnt_comunicazione = 0,seekbar_value=100;
+    int cnt_comunicazione = 0,seekbar_value=100,port=12001,cnt_riconnessioni=0,  thread_cnt = 0;;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -277,21 +277,21 @@ public class MainActivity extends Activity {
             File dir = new File(root.getAbsolutePath() + "/ricette");
             dir.mkdirs();
 
-            ricetta = new Ricetta();
+            recipe = new Recipe();
             try
             {
-                ricetta.open(file);
+                recipe.open(file);
             }
             catch(Exception e){
                 Toast.makeText(this, "error opening xml file ", Toast.LENGTH_SHORT).show();
             }
-            if(ricetta.elements.size() !=0) {
+            if(recipe.elements.size() !=0) {
                 DrawTasca();
-                Values.UdfPuntiVelIni = Math.round(Double.valueOf(ricetta.UdfPuntiVelIni)*1000.0)/1000.0;
-                Values.UdfVelIniRPM = ricetta.UdfVelIniRPM;
-                Values.UdfPuntiVelRall = Math.round(Double.valueOf(ricetta.UdfPuntiVelRall)*1000.0)/1000.0;
-                Values.UdfVelRallRPM = ricetta.UdfVelRallRPM;
-                Values.Udf_FeedG0 = ricetta.Udf_FeedG0;
+                Values.UdfPuntiVelIni = Math.round(Double.valueOf(recipe.UdfPuntiVelIni)*1000.0)/1000.0;
+                Values.UdfVelIniRPM = recipe.UdfVelIniRPM;
+                Values.UdfPuntiVelRall = Math.round(Double.valueOf(recipe.UdfPuntiVelRall)*1000.0)/1000.0;
+                Values.UdfVelRallRPM = recipe.UdfVelRallRPM;
+                Values.Udf_FeedG0 = recipe.Udf_FeedG0;
 
 
 
@@ -318,7 +318,7 @@ public class MainActivity extends Activity {
     //**************************************************************************************************
     private void DrawTasca() {
         try{
-        ArrayList List_entità_T1 = (ArrayList<Element>) ricetta.elements;
+        ArrayList List_entità_T1 = (ArrayList<Element>) recipe.elements;
 
         if(Values.Machine_model.equals("JT318M_1000x800")) {
             myView = new Dynamic_view(this, 733, 450, List_entità_T1, 0.52F, Coord_Pinza, false, 100, 40, null, true, getResources().getDimension(R.dimen.main_activity_framelayout_width), getResources().getDimension(R.dimen.main_activity_framelayout_height));
@@ -354,7 +354,7 @@ public class MainActivity extends Activity {
         File file1 = new File(dir, "file_empty.usr");
 
         if(!file.exists() && !file1.exists()){
-            Ricetta r = new Ricetta();
+            Recipe r = new Recipe();
             r.setDrawPosition(new PointF(0.1f, 0f));
             r.drawFeedTo(new PointF(10f,10f));
             r.drawFeedTo(new PointF(0.1f, 0f));
@@ -393,6 +393,7 @@ public class MainActivity extends Activity {
         Button_step_meno100.setVisibility(View.GONE);
         Button_reset_allarm = (Button)findViewById(R.id.button_reset_allarm);
         Button_reset_allarm.setVisibility(View.GONE);
+        btn_connection_status = findViewById(R.id.btn_connection_status);
         BarSeekSpeed();
 
 
@@ -691,7 +692,7 @@ public class MainActivity extends Activity {
                         double X = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                         double Y = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
 
-                        Coord_Pinza.CoordPosPinza(X, Y, ricetta);
+                        Coord_Pinza.CoordPosPinza(X, Y, recipe);
 
                     }
 
@@ -726,7 +727,7 @@ public class MainActivity extends Activity {
                                     Button_test_cuci.setBackground(context.getResources().getDrawable(R.drawable.ic_test_cucitura));
                                 Visualizza_contatore(Text_punti_da_saltare, Mci_write_Vq1011_numero_Nmulti_step, true, true, true);     //
 
-
+                                Icona_IP(sl);
                                 Riga_CN_Esecuzione();
                                 machinelog.MachineLog_write(MultiCmd_Vb30_Incucitura, MultiCmd_Vq3591_CNT_produzione, MultiCmd_Vb32_Stop_cucitura, Multicmd_dtDB_prog_name);
                                 ControlloErrori();
@@ -758,8 +759,42 @@ public class MainActivity extends Activity {
                     });
 
 
-                } else
+                } else {
                     sl.Connect();
+
+                    if (! sl.IsConnected()) {
+
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cnt_riconnessioni++;
+                                TextView_cnt_thread.setText(getString(R.string.cnt_thread) + thread_cnt + "  Cnt: " + cnt_comunicazione+ " Cnt Reconnect: " +cnt_riconnessioni);
+                                Icona_IP(sl);
+                            }
+                        });
+                        try {
+                            Thread.sleep((long) 200d);
+                            if (StopThread) {
+                                Thread_Running = false;
+                                return;
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+
+                        }
+                        if(port <12006)
+                            port++;
+                        else
+                            port=12001;
+                        sl = new ShoppingList("192.168.0.92", port, 1d, 2d);
+                    }
+
+
+
+
+
+
+                }
             }
 
 
@@ -798,7 +833,16 @@ public class MainActivity extends Activity {
             }catch (Exception e){}
 
         }
-
+        private void Icona_IP(ShoppingList sl) {
+            String IP = sl.getIP();
+            if (sl.IsConnected()) {
+                btn_connection_status.setBackgroundColor(Color.GREEN);
+                btn_connection_status.setText(IP+":"+port);
+            } else {
+                btn_connection_status.setBackgroundColor(Color.RED);
+                btn_connection_status.setText("No Connect");
+            }
+        }
         //*********************************************************************************************
         //Riga_CN_Esecuzione
         //*********************************************************************************************
@@ -1607,7 +1651,7 @@ public class MainActivity extends Activity {
     public static class CoordPosPinza
     {
         double XCoordPosPinza,YCoordPosPinza, XCoord_precedente,YCoord_precedente ;
-        public void CoordPosPinza(double X, double Y, Ricetta r)
+        public void CoordPosPinza(double X, double Y, Recipe r)
         {
             /*
             if(r!=null) {

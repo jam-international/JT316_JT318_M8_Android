@@ -1,2 +1,2 @@
 rootProject.name='JT316_JT318_M8'
-include ':app', ':rS232Support-release', ':ricette_M8'
+include ':app', ':rS232Support-release'

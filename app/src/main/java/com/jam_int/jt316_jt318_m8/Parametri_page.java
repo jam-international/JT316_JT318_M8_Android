@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Recipe;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -52,7 +52,7 @@ public class Parametri_page extends Activity {
     Thread thread_parametri;
     int Chiamante = 0;
     ArrayList<Parametro_mac> Lista_parametri = new ArrayList<>();
-    Ricetta ricetta;
+    Recipe recipe;
     File file_udf;
     boolean Cambiato_dato = false;
     Intent databack_parametri = new Intent();
@@ -465,20 +465,20 @@ public class Parametri_page extends Activity {
                 file_udf = new File(path);
                 if (file_udf.exists()) {
 
-                    ricetta = new Ricetta();
+                    recipe = new Recipe();
                     try {
-                        ricetta.open(file_udf);
+                        recipe.open(file_udf);
                     } catch (Exception e) {
                         Toast.makeText(this, "error opening xml file on Inizializza_parametri", Toast.LENGTH_SHORT).show();
                     }
-                    if (ricetta.elements.size() != 0) {
+                    if (recipe.elements.size() != 0) {
 
-                        Mci_write_Vq1913_C1_UdfVelLavRPM.valore = Double.valueOf(ricetta.UdfVelLavRPM);
-                        Mci_write_Vq1914_C1_UdfPuntiVelIni.valore = Double.valueOf(ricetta.UdfPuntiVelIni);
-                        Mci_write_Vq1915_C1_UdfVelIniRPM.valore = Double.valueOf(ricetta.UdfVelIniRPM);
-                        Mci_write_Vq1916_C1_UdfPuntiVelRall.valore = Double.valueOf(ricetta.UdfPuntiVelRall);
-                        Mci_write_Vq1917_C1_UdfVelRallRPM.valore = Double.valueOf(ricetta.UdfVelRallRPM);
-                        Mci_write_Vq1918_C1_Udf_FeedG0.valore = Double.valueOf(ricetta.Udf_FeedG0);
+                        Mci_write_Vq1913_C1_UdfVelLavRPM.valore = Double.valueOf(recipe.UdfVelLavRPM);
+                        Mci_write_Vq1914_C1_UdfPuntiVelIni.valore = Double.valueOf(recipe.UdfPuntiVelIni);
+                        Mci_write_Vq1915_C1_UdfVelIniRPM.valore = Double.valueOf(recipe.UdfVelIniRPM);
+                        Mci_write_Vq1916_C1_UdfPuntiVelRall.valore = Double.valueOf(recipe.UdfPuntiVelRall);
+                        Mci_write_Vq1917_C1_UdfVelRallRPM.valore = Double.valueOf(recipe.UdfVelRallRPM);
+                        Mci_write_Vq1918_C1_Udf_FeedG0.valore = Double.valueOf(recipe.Udf_FeedG0);
 
 
                     } else {
@@ -1154,17 +1154,17 @@ public class Parametri_page extends Activity {
                     }
 
 
-                    ricetta.UdfVelLavRPM = (int) Math.round(Mci_write_Vq1913_C1_UdfVelLavRPM.valore);
-                    ricetta.UdfPuntiVelIni = Mci_write_Vq1914_C1_UdfPuntiVelIni.valore;
-                    ricetta.UdfVelIniRPM = (int) Math.round(Mci_write_Vq1915_C1_UdfVelIniRPM.valore);
-                    ricetta.UdfPuntiVelRall = Mci_write_Vq1916_C1_UdfPuntiVelRall.valore;
-                    ricetta.UdfVelRallRPM = (int) Math.round(Mci_write_Vq1917_C1_UdfVelRallRPM.valore);
-                    ricetta.Udf_FeedG0 = (int) Math.round(Mci_write_Vq1918_C1_Udf_FeedG0.valore);
+                    recipe.UdfVelLavRPM = (int) Math.round(Mci_write_Vq1913_C1_UdfVelLavRPM.valore);
+                    recipe.UdfPuntiVelIni = Mci_write_Vq1914_C1_UdfPuntiVelIni.valore;
+                    recipe.UdfVelIniRPM = (int) Math.round(Mci_write_Vq1915_C1_UdfVelIniRPM.valore);
+                    recipe.UdfPuntiVelRall = Mci_write_Vq1916_C1_UdfPuntiVelRall.valore;
+                    recipe.UdfVelRallRPM = (int) Math.round(Mci_write_Vq1917_C1_UdfVelRallRPM.valore);
+                    recipe.Udf_FeedG0 = (int) Math.round(Mci_write_Vq1918_C1_Udf_FeedG0.valore);
 
 
 
 
-                    ricetta.save(file_udf);
+                    recipe.save(file_udf);
                     databack_parametri.setData(Uri.parse("SI"));
                     setResult(RESULT_OK, databack_parametri);   //indico che ho cambiato almeno un parametro
 

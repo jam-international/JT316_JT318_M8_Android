@@ -5,10 +5,10 @@ import android.os.Environment;
 
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.github.mjdev.libaums.fs.UsbFileInputStream;
-import com.jamint.ricette.Element;
-import com.jamint.ricette.JamPointCode;
-import com.jamint.ricette.JamPointStep;
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Element;
+import com.jamint.recipes.JamPointCode;
+import com.jamint.recipes.JamPointStep;
+import com.jamint.recipes.Recipe;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -484,8 +484,8 @@ public class EepToXml {
     //////////////////////////////////////////////////////////////////////////////////////////
     //
     //////////////////////////////////////////////////////////////////////////////////////////
-    public static Ricetta CreaRicetta(ArrayList<ArrayList<String>> points) {
-        Ricetta r = new Ricetta();
+    public static Recipe CreaRicetta(ArrayList<ArrayList<String>> points) {
+        Recipe r = new Recipe();
         if(points.size() > 0) {
             ArrayList<String> PC_array = points.get(0);
             try {
@@ -532,60 +532,60 @@ public class EepToXml {
 
                             switch (codice) {
                                 case "771":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP1, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.OP1, 1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP1, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.OP1, 0);
                                     break;
 
-
                                 case "772":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP2, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.OP2, 1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP2, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.OP2, 0);
 
 
                                     break;
 
 
                                 case "773":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP3, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.OP3, 1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.OP3, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.OP3,0);
 
 
                                     break;
 
 
                                 case "667":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED1, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED1, 1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED1, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED1,0);
 
 
                                     break;
 
 
                                 case "668":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED2, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED2,1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED2, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED2, 0);
 
 
                                     break;
 
 
                                 case "669":
-                                    if(valore.contains("1"))
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED3, JamPointCode.TipiValori.VALUE1);
+                                    if (valore.contains("1"))
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED3, 1);
                                     else
-                                        r.addStepCode(step, JamPointCode.TipiCodici.SPEED3, JamPointCode.TipiValori.VALUE0);
+                                        r.addStepCode(step, JamPointCode.CodeType.SPEED3, 0);
 
                                     break;
+
 
                             }
 

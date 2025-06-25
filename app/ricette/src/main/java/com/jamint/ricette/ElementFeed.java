@@ -1,4 +1,4 @@
-package com.jamint.ricette;
+package com.jamint.rece;
 
 import java.util.ArrayList;
 

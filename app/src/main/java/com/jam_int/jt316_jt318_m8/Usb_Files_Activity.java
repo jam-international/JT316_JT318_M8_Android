@@ -42,7 +42,7 @@ import com.github.mjdev.libaums.fs.FileSystem;
 import com.github.mjdev.libaums.fs.UsbFile;
 import com.github.mjdev.libaums.fs.UsbFileOutputStream;
 import com.github.mjdev.libaums.fs.UsbFileStreamFactory;
-import com.jamint.ricette.Ricetta;
+import com.jamint.recipes.Recipe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -805,7 +805,7 @@ public class Usb_Files_Activity extends Activity {
 
                 try {
                     copyFileToHD(file);     //cartella
-                    Ricetta r = new Ricetta();
+                    Recipe r = new Recipe();
                     try {
                         r.open(DestinationLocation);
                         r.exportToUsr(new File(DestinationLocation.getPath().replace(FileSelezionato_sx.getName(), FileSelezionato_sx.getName().replace(".xml", ".usr"))));
@@ -969,7 +969,7 @@ public class Usb_Files_Activity extends Activity {
 
                                     }//
 
-                                    Ricetta r = new Ricetta();
+                                    Recipe r = new Recipe();
                                     try {
                                         r.open(DestinationLocation);
                                         r.exportToUsr(new File(DestinationLocation.getPath().replace(FileSelezionato_sx.getName(), FileSelezionato_sx.getName().replace(".xml", ".usr"))));
@@ -1140,7 +1140,7 @@ public class Usb_Files_Activity extends Activity {
 
 
 
-                            Ricetta r = new Ricetta();
+                            Recipe r = new Recipe();
                             try {
                                 r.open(DestinationLocation);
                                 r.exportToUsr(new File(DestinationLocation.getPath().replace(FileSelezionato_sx.getName(), FileSelezionato_sx.getName().replace(".xml", ".usr"))));
@@ -1321,7 +1321,7 @@ public class Usb_Files_Activity extends Activity {
                                             UsbFile[] files = root.listFiles();
                                             File UsrFromEep = EepToXml.ConvertEepToUsr_UsbFile(file);
                                             ArrayList<ArrayList<String>> points = EepToXml.getPointsFromUsr(UsrFromEep);
-                                            Ricetta r = new Ricetta();
+                                            Recipe r = new Recipe();
                                             r = EepToXml.CreaRicetta(points);
 
                                             if (r.getStepsCount() > 0) {
@@ -1718,7 +1718,7 @@ public class Usb_Files_Activity extends Activity {
                         }//
 
 
-                        Ricetta r = new Ricetta();
+                        Recipe r = new Recipe();
                         try {
                             r.open(DestinationLocation);
                             r.exportToUsr(new File(DestinationLocation.getPath().replace(FileSelezionato_sx.getName(), FileSelezionato_sx.getName().replace(".xml", ".usr"))));

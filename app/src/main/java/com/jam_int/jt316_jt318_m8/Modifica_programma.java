@@ -26,20 +26,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jamint.ricette.Element;
-import com.jamint.ricette.ElementArc;
-import com.jamint.ricette.ElementFeed;
-import com.jamint.ricette.ElementLine;
-import com.jamint.ricette.ElementZigZag;
-import com.jamint.ricette.JamPointCode;
-import com.jamint.ricette.JamPointStep;
-import com.jamint.ricette.Ricetta;
-import com.jamint.ricette.Tools;
+import com.google.gson.Gson;
+import com.jamint.recipes.Element;
+import com.jamint.recipes.ElementArc;
+import com.jamint.recipes.ElementFeed;
+import com.jamint.recipes.ElementLine;
+import com.jamint.recipes.ElementLineZigZag;
+import com.jamint.recipes.JamPointCode;
+import com.jamint.recipes.JamPointStep;
+import com.jamint.recipes.Recipe;
+import com.jamint.recipes.Tools;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import communication.MultiCmdItem;
 import communication.ShoppingList;
@@ -49,7 +55,7 @@ public class Modifica_programma extends Activity {
     Thread t1;
     FrameLayout frame_canvas;
     String File_Xml_path,Machine_model;
-    Ricetta ricetta, ricetta_undo;
+    Recipe recipe, ricetta_undo;
     Context context;
     ArrayList<Element> List_entità = new ArrayList<>();
     List<Element> ElemSelezionati = new ArrayList<Element>(); ;
@@ -290,7 +296,7 @@ public class Modifica_programma extends Activity {
 
         
         Init_Eventi();
-        TextView_tot_punti.setText(""+  ricetta.getStepsCount());
+        TextView_tot_punti.setText(""+  recipe.getStepsCount());
         TextView_xRel.setVisibility(View.GONE);
         TextView_YRel.setVisibility(View.GONE);
         Button_debug.setVisibility(View.GONE);
@@ -313,8 +319,7 @@ public class Modifica_programma extends Activity {
         }
 
 
-        //faccio partire il broadcast per ricevere eventuale codice premuto (qui parte sempe ma solo una volta)
-        LocalBroadcastManager.getInstance(this).registerReceiver(Code_MessageReceiver, new IntentFilter("CodeDialog_exit"));
+
         //faccio partire il broadcast per ricevere eventuale ritorno del cambio della lunghezza punto (qui parte sempe ma solo una volta)
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver_KeyDialog, new IntentFilter("ret_valore"));
 
@@ -589,10 +594,10 @@ public class Modifica_programma extends Activity {
             File file1 = new File(file.getParent() + "/" + name + ".xml");
             //  ricetta = new Ricetta(file1);
 
-            ricetta = new Ricetta();
+            recipe = new Recipe();
             try
             {
-                ricetta.open(file1);
+                recipe.open(file1);
             }
             catch(Exception e){
                 Toast.makeText(this, "error opening xml file ", Toast.LENGTH_SHORT).show();
@@ -600,7 +605,7 @@ public class Modifica_programma extends Activity {
 
 
 
-            List_entità = (ArrayList<Element>)ricetta.elements;
+            List_entità = (ArrayList<Element>)recipe.elements;
 
             if(Values.Machine_model.equals("JT318M_1000x800")) {
                 myView = new Dynamic_view(this, 733, 350, List_entità, .4F, Coord_Pinza, false, 30, 40, null, true, getResources().getDimension(R.dimen.modifica_programma_activity_framelayout_width), getResources().getDimension(R.dimen.modifica_programma_activity_framelayout_height));
@@ -693,7 +698,7 @@ public class Modifica_programma extends Activity {
                             StepSingolo(info_StepPiuMeno.numeroRipetuto);
                         }
                         if(info_StepPiuMeno.tipo_spostamento == Info_StepPiuMeno.Tipo_spostamento.TO_STEP_ATTIVO) {
-                            Moveto( ricetta.getActiveStep());
+                            Moveto( recipe.getActiveStep());
                         }
 
                         if(info_modifica.comando == Info_modifica.Comando.HOME) Fai_Home();
@@ -715,7 +720,7 @@ public class Modifica_programma extends Activity {
                         GestioneEntitaMeno();
                         double X = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                         double Y = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
-                        Coord_Pinza.CoordPosPinza(X, Y, ricetta);
+                        Coord_Pinza.CoordPosPinza(X, Y, recipe);
 
                         AggiornaGuiDaThread();
 
@@ -753,8 +758,8 @@ public class Modifica_programma extends Activity {
                     }
                     if( info_modifica.comando == Info_modifica.Comando.ESCI_DONE_AZZERAMENTO){
                         info_modifica.comando = Info_modifica.Comando.Null;
-                        ricetta.clearActiveStep();  //imposta indice step a -1
-                        ricetta.repair();  //ripara la ricetta nel caso ci siano degli errori di continuità o di coordinate
+                        recipe.clearActiveStep();  //imposta indice step a -1
+                        recipe.repair();  //ripara la ricetta nel caso ci siano degli errori di continuità o di coordinate
                         Run_Alert_dialog();
 
                     }
@@ -763,8 +768,8 @@ public class Modifica_programma extends Activity {
                     TextView_XAss.setText("" + ((Double) MultiCmd_posizione_X.getValue() / 1000d));
                     TextView_YAss.setText("" + ((Double) MultiCmd_posizione_Y.getValue() / 1000d));
                     ShowQuoteRelative();
-                    TextView_tot_punti.setText("" + ricetta.getStepsCount());
-                    ShowIndicePunto(ricetta.getActiveStepIndex());
+                    TextView_tot_punti.setText("" + recipe.getStepsCount());
+                    ShowIndicePunto(recipe.getActiveStepIndex());
                     if (Coord_Pinza.XCoord_precedente != Coord_Pinza.XCoordPosPinza || Coord_Pinza.YCoord_precedente != Coord_Pinza.YCoordPosPinza) {
                         myView.AggiornaCanvas(true);
                         Coord_Pinza.XCoord_precedente = Coord_Pinza.XCoordPosPinza;
@@ -788,11 +793,11 @@ public class Modifica_programma extends Activity {
         //**************************************************************************************************
         private void Show_debug_entità() {
             try {
-                Element element = ricetta.getActiveStep().element;
-                int indexElement = ricetta.elements.indexOf(ricetta.getActiveStep().element);
-                TextView_debug.setText("Num_entità: " + ricetta.elements.size() + "\n" +
+                Element element = recipe.getActiveStep().element;
+                int indexElement = recipe.elements.indexOf(recipe.getActiveStep().element);
+                TextView_debug.setText("Num_entità: " + recipe.elements.size() + "\n" +
                         "Index elemento attivo: " + indexElement + "\n" +
-                        "index step: " + ricetta.getActiveStepIndex());
+                        "index step: " + recipe.getActiveStepIndex());
             }catch (Exception e){
                 TextView_debug.setText("d:");
             }
@@ -899,10 +904,10 @@ public class Modifica_programma extends Activity {
                                                     File file = new File(dir, input.getText().toString() + ".xml");
                                                     File file1 = new File(dir, input.getText().toString() + ".usr");
                                                     try {
-                                                        ricetta.save(file);
+                                                        recipe.save(file);
 
                                                         try {
-                                                            ricetta.exportToUsr(file1);
+                                                            recipe.exportToUsr(file1);
                                                         }catch (Exception e)
                                                         {
                                                             Toast.makeText(getApplicationContext(), "error Usr export ", Toast.LENGTH_SHORT).show();
@@ -929,9 +934,9 @@ public class Modifica_programma extends Activity {
 
                                 } else {
                                     try {
-                                        ricetta.save(file);
+                                        recipe.save(file);
                                         try {
-                                            ricetta.exportToUsr(file1);
+                                            recipe.exportToUsr(file1);
                                         }catch (Exception e)
                                         {
                                             Toast.makeText(getApplicationContext(), "error Usr export ", Toast.LENGTH_SHORT).show();
@@ -1103,7 +1108,7 @@ public class Modifica_programma extends Activity {
             if(activeStepIndex < 0)
                 TextView_cnt_punti.setText("0");    //altrimenti mi scrive -1
             else
-                TextView_cnt_punti.setText(""+ricetta.getActiveStepIndex());
+                TextView_cnt_punti.setText(""+recipe.getActiveStepIndex());
         }
         //*********************************************************************************************
         //Fai Esci
@@ -1194,8 +1199,8 @@ public class Modifica_programma extends Activity {
                     float X_destinazione = 0.0f, Y_destinazione = 0.0f;
 
 
-                  //  X_destinazione =  ricetta.pcX;
-                  //  Y_destinazione =  ricetta.pcY;
+                  //  X_destinazione =  recipe.pcX;
+                  //  Y_destinazione =  recipe.pcY;
                     if(activeStep !=null) {
 
                         X_destinazione += activeStep.p.x;
@@ -1284,7 +1289,7 @@ public class Modifica_programma extends Activity {
                     if ((Double) MultiCmd_XY_fermi.getValue() == 1.0d ) { //se X e Y sono fermi
                         info_StepPiuMeno.MacStati_StepSingolo = 20;
                     }
-                    if(ricetta.getActiveStepIndex() == -1 ||info_StepPiuMeno.tipo_spostamento == Info_StepPiuMeno.Tipo_spostamento.N_SALTO ){     //se sono sul punto di carico
+                    if(recipe.getActiveStepIndex() == -1 ||info_StepPiuMeno.tipo_spostamento == Info_StepPiuMeno.Tipo_spostamento.N_SALTO ){     //se sono sul punto di carico
                         //alzo piedino nel caso faccio un psostamento dal punto di carico oppure faccio un aslto di n punti
 
 
@@ -1300,7 +1305,7 @@ public class Modifica_programma extends Activity {
                     if(info_StepPiuMeno.direzione == Info_StepPiuMeno.Direzione.AVANTI) {
                         try {
                             //alzo il piedino se è basso e se trovo un feed
-                            if((ricetta.isNextElementFeed())&& (double) MultiCmd_Status_Piedino.getValue() == 0.0d){
+                            if((recipe.isNextElementFeed())&& (double) MultiCmd_Status_Piedino.getValue() == 0.0d){
 
                                 MultiCmd_Vb74_RichiestaPiedinoSu_C1.setValue(1.0d);
                                 sl.WriteItem(MultiCmd_Vb74_RichiestaPiedinoSu_C1);
@@ -1308,7 +1313,7 @@ public class Modifica_programma extends Activity {
 
 
                             for(int i= 0; i < nPunti; i++)
-                                step = ricetta.goToNextStep();
+                                step = recipe.goToNextStep();
 
 
                             if(ElemSelezionati != null) ElemSelezionati.clear();    //se il LIST è vuoto allora indica che ho scorso il programma come steps altrimenti con selectNextEntity
@@ -1324,22 +1329,22 @@ public class Modifica_programma extends Activity {
                     else  {
                         try {
                             //alzo il piedino se è basso e se trovo un feed
-                            if((ricetta.isPreviousElementFeed())&& (double) MultiCmd_Status_Piedino.getValue() == 0.0d){
+                            if((recipe.isPreviousElementFeed())&& (double) MultiCmd_Status_Piedino.getValue() == 0.0d){
 
                                 MultiCmd_Vb74_RichiestaPiedinoSu_C1.setValue(1.0d);
                                 sl.WriteItem(MultiCmd_Vb74_RichiestaPiedinoSu_C1);
                             }
                             //modifica per passa sul punto di carico quando faccio step- sul primo punto di cucitura
-                            if(ricetta.getActiveStepIndex() == 1){  //se devo andare al punto di carico
-                                JamPointStep step1 = ricetta.goToPreviousStep();    //lo uso per decrementare ActiveStepIndex
+                            if(recipe.getActiveStepIndex() == 1){  //se devo andare al punto di carico
+                                JamPointStep step1 = recipe.goToPreviousStep();    //lo uso per decrementare ActiveStepIndex
 
-                                step.p.x = ricetta.pcX;
-                                step.p.y = ricetta.pcY;
+                                step.p.x = recipe.pcX;
+                                step.p.y = recipe.pcY;
 
                             }else
                                 {   //procedura normale per trovare lo step precedente
                                 for (int i = 0; i < nPunti; i++)
-                                    step = ricetta.goToPreviousStep();
+                                    step = recipe.goToPreviousStep();
                             }
 
                             if(ElemSelezionati != null) ElemSelezionati.clear();    //se il LIST è vuoto allora indica che ho scorso il programma come steps altrimenti con selectNextEntity
@@ -1356,8 +1361,8 @@ public class Modifica_programma extends Activity {
 
                         MultiCmd_Vb74_RichiestaPiedinoSu_C1.setValue(1.0d);
                         sl.WriteItem(MultiCmd_Vb74_RichiestaPiedinoSu_C1);
-                        X_destinazione = ricetta.pcX;
-                        Y_destinazione = ricetta.pcY;
+                        X_destinazione = recipe.pcX;
+                        Y_destinazione = recipe.pcY;
                     }
                     else{
 
@@ -1458,94 +1463,64 @@ public class Modifica_programma extends Activity {
         //*********************************************************************************************
         private void Scrivi_codice_HMI() {
 
-            List<JamPointCode> codeStatus = ricetta.getActiveStepCodes(); //getStepCodes(punto_attuale);
+            List<JamPointCode> codeStatus = recipe.getActiveStepCodes(); //getStepCodes(punto_attuale);
 
-            int punto_attuale = ricetta.getActiveStepIndex();
-
-            if(punto_attuale == -1){
-                for (JamPointCode code : ricetta.codes) {
-                    try {
-                        if (code.Num_punti_rotaz.equals("iniziale")) {
-                            TextView_Code.setText("Init Angle: " + code.Angolo_rotaz);
-                        }
-                    }catch (Exception e){}
-                }
+            int punto_attuale = recipe.getActiveStepIndex();
 
 
 
+            if (codeStatus.size() > 0) {
 
-            }else {
+                Button_delete_code.setVisibility(View.VISIBLE);
+                String stringa_codice = "Code: ";
+                String delimiter ="";
+                for (JamPointCode code : codeStatus) {
+                    String valore_codice = ""+code.value;
+                    String tipo_codice = code.codeType.toString();
 
-                if (codeStatus.size() > 0) {
+                    switch (tipo_codice) {
+                        case "OP1":
+                            if(code.value==1)
+                                stringa_codice = stringa_codice + delimiter + " OP1 ON";
+                            else
+                                stringa_codice = stringa_codice + delimiter + " OP1 OFF";
+                            break;
+                        case "OP2":
+                            if(code.value==1)
+                                stringa_codice = stringa_codice + delimiter + " OP2 ON";
+                            else
+                                stringa_codice = stringa_codice + delimiter + " OP2 OFF";
+                            break;
+                        case "OP3":
+                            if(code.value==1)
+                                stringa_codice = stringa_codice + delimiter + " OP3 ON";
+                            else
+                                stringa_codice = stringa_codice + delimiter + " OP3 OFF";
+                            break;
+                        case "SPEED_M8":
+                            stringa_codice = stringa_codice + delimiter + " SPEED :" + code.value;
 
-                    Button_delete_code.setVisibility(View.VISIBLE);
-                    String stringa_codice = "Code: ";
-                    for (JamPointCode code : codeStatus) {
-                        String valore_codice = code.valore.toString();
-                        String tipo_codice = code.tipoCodice.toString();
-
-                        switch (tipo_codice){
-
-                            case "SPEED_M8":
-                                stringa_codice = stringa_codice + "SPEED " + code.valore_M8;
-
-                                break;
-                            case "TENS_M8":
-
-                                stringa_codice = stringa_codice + "TENSION " + code.valore_M8;
-
-                                break;
-
-                            case "ANGOLO_ROT":
-                                if(!code.Num_punti_rotaz.equals("iniziale"))
-                                    stringa_codice = stringa_codice + "Angle: " + code.Angolo_rotaz+ "; Stitches: "+ code.Num_punti_rotaz;
-
-                                break;
-
-                            case "RASAFILO":
-                                stringa_codice = stringa_codice + tipo_codice;
-                                if (valore_codice.equals("VALUE1"))
-                                    stringa_codice = stringa_codice + " OFF ";
-                                else stringa_codice = stringa_codice + " ON ";
-
-                                break;
+                            break;
 
 
-                            default:
-                                stringa_codice = stringa_codice + tipo_codice;
-                                if (valore_codice.equals("VALUE1"))
-                                    stringa_codice = stringa_codice + " ON ";
-                                else stringa_codice = stringa_codice + " OFF ";
+                        case "RASAFILO1":
+                            // stringa_codice = stringa_codice + tipo_codice;
+                            if (valore_codice.equals("0"))
+                                stringa_codice = stringa_codice + delimiter + " Trim1 Enable ";
+                            else stringa_codice = stringa_codice + delimiter + " Trim1 Disable";
 
-                                break;
-                        }
-
-
-                        /*
-                        if (tipo_codice.equals("SPEED_M8")) {
-
-                            stringa_codice = stringa_codice + "SPEED " + code.valore_M8;
-                        } else {
-                            if (tipo_codice.equals("TENS_M8")) {
-
-                                stringa_codice = stringa_codice + "TENSION " + code.valore_M8;
-                            } else {
-                                stringa_codice = stringa_codice + tipo_codice;
-                                if (valore_codice.equals("VALUE1"))
-                                    stringa_codice = stringa_codice + " ON ";
-                                else stringa_codice = stringa_codice + " OFF ";
-                            }
-                        }
-                        */
+                            break;
 
                     }
-                    TextView_Code.setText(stringa_codice);
-                } else {
-                    TextView_Code.setText("Code:");
-
-                    Button_delete_code.setVisibility(View.GONE);
+                    delimiter ="||";
                 }
+                TextView_Code.setText(stringa_codice);
+            } else {
+                TextView_Code.setText("Code:");
+
+                Button_delete_code.setVisibility(View.GONE);
             }
+
 
         } //*************************************************************************************************
         // Show_info_entità
@@ -1573,15 +1548,15 @@ public class Modifica_programma extends Activity {
                         ImageView.setBackground(getResources().getDrawable(R.drawable.info_cucitura));
                         TextView_valore_A.setVisibility(View.VISIBLE);
                         TextView_valore_B.setVisibility(View.GONE);
-                        TextView_valore_A.setText("" + ElemSelezionati.get(0).passo);
+                        TextView_valore_A.setText("" + ElemSelezionati.get(0).stepLength);
 
                     }
-                    if (ElemSelezionati.get(0) instanceof ElementZigZag) {
+                    if (ElemSelezionati.get(0) instanceof ElementLineZigZag) {
                         ImageView.setBackground(getResources().getDrawable(R.drawable.info_travetta));
                         TextView_valore_B.setVisibility(View.VISIBLE);
                         TextView_valore_A.setVisibility(View.VISIBLE);
-                        TextView_valore_B.setText("" + ((ElementZigZag) ElemSelezionati.get(0)).altezza);
-                        TextView_valore_A.setText("" + ((ElementZigZag) ElemSelezionati.get(0)).passo);
+                        TextView_valore_B.setText("" + ((ElementLineZigZag) ElemSelezionati.get(0)).height);
+                        TextView_valore_A.setText("" + ((ElementLineZigZag) ElemSelezionati.get(0)).stepLength);
 
                     }
                 }
@@ -1617,14 +1592,14 @@ public class Modifica_programma extends Activity {
                 if (List_entità.size() > 0) {
 
 
-                    if (ricetta.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un agonoNextStep per andare al primo punto.
+                    if (recipe.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un agonoNextStep per andare al primo punto.
                     {
-                        ricetta.goToNextStep();
-                        //ElemSelezionati = ricetta.selectNextEntity();
-                       // ElemSelezionati = ricetta.selectNextEntity();
+                        recipe.goToNextStep();
+                        //ElemSelezionati = recipe.selectNextEntity();
+                       // ElemSelezionati = recipe.selectNextEntity();
                     } else
                     if( info_modifica.comando ==  info_modifica.comando.SPOSTA2){   //se avevo questi comandi e ho ripremuto E+ continuo a inserire le entità in modo da farle tutte gialle
-                        List<Element> el =  ricetta.selectNextEntity();
+                        List<Element> el =  recipe.selectNextEntity();
                         for (Element  element : el) {
                             ElemSelezionati.add(element);
 
@@ -1634,24 +1609,24 @@ public class Modifica_programma extends Activity {
                         for (Element elementi : ElemSelezionati) {     //selezione
                             elementi.isSelected = false;       //seleziono gli element dell'entità
                         }
-                        ElemSelezionati = ricetta.selectNextEntity();   //seleziono solo una entità, solo una sarà gialla
+                        ElemSelezionati = recipe.selectNextEntity();   //seleziono solo una entità, solo una sarà gialla
 
 
                     }
-                    X_destinazione = ricetta.getSelectedEntityStartPoint().x;  // + ricetta.pcX;                                      //quota X destinazione del primo step dell'element successivo
-                    Y_destinazione = ricetta.getSelectedEntityStartPoint().y;  // + ricetta.pcY;
+                    X_destinazione = recipe.getSelectedEntityStartPoint().x;  // + recipe.pcX;                                      //quota X destinazione del primo step dell'element successivo
+                    Y_destinazione = recipe.getSelectedEntityStartPoint().y;  // + recipe.pcY;
 
                     /*
-                    if (ricetta.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un altro Next altrimenti alla prima pressione non si muove
+                    if (recipe.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un altro Next altrimenti alla prima pressione non si muove
                     {
-                        ElemSelezionati = ricetta.selectNextEntity();
-                        ElemSelezionati = ricetta.selectNextEntity();
+                        ElemSelezionati = recipe.selectNextEntity();
+                        ElemSelezionati = recipe.selectNextEntity();
                     } else
-                        ElemSelezionati = ricetta.selectNextEntity();
+                        ElemSelezionati = recipe.selectNextEntity();
 
 
-                    X_destinazione = ricetta.getSelectedEntityStartPoint().x;  // + ricetta.pcX;                                      //quota X destinazione del primo step dell'element successivo
-                    Y_destinazione = ricetta.getSelectedEntityStartPoint().y;  // + ricetta.pcY;                                      //quota Y destinazione del primo step dell'element successivo
+                    X_destinazione = recipe.getSelectedEntityStartPoint().x;  // + recipe.pcX;                                      //quota X destinazione del primo step dell'element successivo
+                    Y_destinazione = recipe.getSelectedEntityStartPoint().y;  // + recipe.pcY;                                      //quota Y destinazione del primo step dell'element successivo
 */
 
 
@@ -1733,20 +1708,20 @@ public class Modifica_programma extends Activity {
 
                 if (List_entità.size() > 0) {
 
-                    if (ricetta.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un goToPreviousStep per posizionarmi all'ultimo punto
+                    if (recipe.getActiveStepIndex() == -1)    //nel caso entrando ero a -1 faccio un goToPreviousStep per posizionarmi all'ultimo punto
                     {
-                        ricetta.goToPreviousStep();
-                        ricetta.selectNextEntity();
+                        recipe.goToPreviousStep();
+                        recipe.selectNextEntity();
 
                     }
 
 
-                    ElemSelezionati = ricetta.selectPreviousEntity();
+                    ElemSelezionati = recipe.selectPreviousEntity();
 
                     try {
                         //Set_button_PiuMeno_invisibili();
-                        X_destinazione = ricetta.getSelectedEntityStartPoint().x ; //+ ricetta.pcX;                                      //quota X destinazione del primo step dell'element successivo
-                        Y_destinazione = ricetta.getSelectedEntityStartPoint().y; // + ricetta.pcY;                                      //quota Y destinazione del primo step dell'element successivo
+                        X_destinazione = recipe.getSelectedEntityStartPoint().x ; //+ recipe.pcX;                                      //quota X destinazione del primo step dell'element successivo
+                        Y_destinazione = recipe.getSelectedEntityStartPoint().y; // + recipe.pcY;                                      //quota Y destinazione del primo step dell'element successivo
 
                         //  info_modifica.QuoteRelativeAttive = true;
                         double X = Double.valueOf(X_destinazione);                              //invio quote al PLC
@@ -1788,7 +1763,7 @@ public class Modifica_programma extends Activity {
     private void Aggiorna_canvas() {
 
 
-        myView.Ricalcola_entità_canvas(ricetta.elements);
+        myView.Ricalcola_entità_canvas(recipe.elements);
         myView.AggiornaCanvas(true);
 
     }
@@ -1828,7 +1803,7 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     public void on_click_move_to_home(View view) throws IOException {
 
-        ricetta.clearActiveStep();  //imposta indice step a -1
+        recipe.clearActiveStep();  //imposta indice step a -1
         info_StepPiuMeno.MacStati_StepSingolo = 0; //pulisco
         SpegniTutteIcone();
         Mci_Vn3081_override_rotaz.valore = 1000d;
@@ -1845,12 +1820,12 @@ public class Modifica_programma extends Activity {
             Mci_Vb_OutPiedino_su.valore = 1.0d;
             Mci_Vb_OutPiedino_su.write_flag = true;
 
-            JamPointStep step = ricetta.getActiveStep();
+            JamPointStep step = recipe.getActiveStep();
 
             if(step == null){
                 try {
-                    ricetta.undo();
-                    ricetta.clearActiveStep();  //imposta indice step a -1
+                    recipe.undo();
+                    recipe.clearActiveStep();  //imposta indice step a -1
                 }catch
                 (Exception e){}
 
@@ -1865,13 +1840,13 @@ public class Modifica_programma extends Activity {
                 try {
                     PointF p = new PointF(step.p.x, step.p.y);
 
-                    ricetta.undo();
+                    recipe.undo();
 
 
-                    JamPointStep step_risultato = ricetta.goToNearestStep(p, 12.7d);
+                    JamPointStep step_risultato = recipe.goToNearestStep(p, 12.7d);
                     if (step_risultato == null) {
 
-                        ricetta.clearActiveStep();  //imposta indice step a -1
+                        recipe.clearActiveStep();  //imposta indice step a -1
                         info_modifica.comando = Info_modifica.Comando.HOME;
                       //  MultiCmd_Vb558_PCHome.setValue(1.0d); // mi serve per non far ricomparire le icone dal thread della grafica
                         SpegniTutteIcone();
@@ -1889,11 +1864,11 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     public void onclick_New(View view) throws IOException {
 
-        ricetta = new Ricetta();
-        ricetta.pcX = 0.1f;
-        ricetta.pcY = 0.1f;
-        ricetta.clearActiveStep();  //imposta indice step a -1
-        ricetta.setDrawPosition(new PointF(0.1f, 0f));
+        recipe = new Recipe();
+        recipe.pcX = 0.1f;
+        recipe.pcY = 0.1f;
+        recipe.clearActiveStep();  //imposta indice step a -1
+        recipe.setDrawPosition(new PointF(0.1f, 0f));
 
         Aggiorna_canvas();
 
@@ -1907,7 +1882,7 @@ public class Modifica_programma extends Activity {
         Mci_Vb_OutPiedino_su.write_flag = true;
 
         try {
-            ricetta.redo();
+            recipe.redo();
         }catch (Exception e)
         {}
         Aggiorna_canvas();
@@ -1952,7 +1927,7 @@ public class Modifica_programma extends Activity {
     public void onclick_Esc(View view) throws IOException {
 
 
-        ricetta.selectionStepClear();
+        recipe.selectionStepClear();
         info_StepPiuMeno.MacStati_StepSingolo = 0;
         Visualizza_tutti_Button();
         TextView_info.setText("");
@@ -2012,20 +1987,20 @@ public class Modifica_programma extends Activity {
                         }
                         //daniele 18/06/20
                         //se ho raggiunto il punto finale dell'arco con il tasto + porto in dietro lo step attivo altrimenti no.
-                        int idx_attivo = ricetta.getActiveStepIndex();
+                        int idx_attivo = recipe.getActiveStepIndex();
                         if(idx_attivo > info_modifica.id_punto_inizio_modifica) {       //se ho raggiunto il punto finale dell'arco con il tasto +
                             for (int i = idx_attivo; i > info_modifica.id_punto_inizio_modifica+1; i--) {
-                                ricetta.goToPreviousStep();
+                                recipe.goToPreviousStep();
                             }
 
                         }
                         //
 
-                        idx_attivo = ricetta.getActiveStepIndex();
+                        idx_attivo = recipe.getActiveStepIndex();
                         if(idx_attivo >= info_modifica.id_punto_inizio_modifica) {
                             info_modifica.comando = Info_modifica.Comando.Null;
-                            Element el = ricetta.drawArcTo(new PointF(((float) info_modifica.X_Middle ), ((float) info_modifica.Y_Middle)), new PointF(((float) info_modifica.X_End ), ((float) info_modifica.Y_End)), LP_arco);
-                            el.passo = LP_arco;
+                            Element el = recipe.drawArcTo(new PointF(((float) info_modifica.X_Middle ), ((float) info_modifica.Y_Middle)), new PointF(((float) info_modifica.X_End ), ((float) info_modifica.Y_End)), LP_arco);
+                            el.stepLength = LP_arco;
                             TextView_info.setText(getString(R.string.Fatto));  //
                         }else
                         {
@@ -2050,23 +2025,23 @@ public class Modifica_programma extends Activity {
                             double Xfinale = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                             double Yfinale = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
 
-                            JamPointStep StepAttuale = ricetta.getActiveStep();
-                            //int f = ricetta.elements.size();
-                            if(StepAttuale == null ||  ricetta.elements.size() ==0) {   //probabilemnte è il primo feed di un programma vutot
+                            JamPointStep StepAttuale = recipe.getActiveStep();
+                            //int f = recipe.elements.size();
+                            if(StepAttuale == null ||  recipe.elements.size() ==0) {   //probabilemnte è il primo feed di un programma vutot
 
                                 double  x = (double)info_modifica.DeltaX_inizio;
                                 float x_f =  Tools.roundTruncate005((float)x);
                                 double  y = (double)info_modifica.DeltaY_inizio;
                                 float y_f = Tools.roundTruncate005((float)y);
-                             //   ricetta.setDrawPosition(new PointF(x_f, y_f));
-                                ricetta.setDrawPosition(new PointF(x_f, y_f));
-                                ricetta.pcX = x_f;
-                                ricetta.pcY = y_f;
+                             //   recipe.setDrawPosition(new PointF(x_f, y_f));
+                                recipe.setDrawPosition(new PointF(x_f, y_f));
+                                recipe.pcX = x_f;
+                                recipe.pcY = y_f;
                             }
                             else
-                            ricetta.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
+                            recipe.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
 
-                            ricetta.drawFeedTo(new PointF(((float) Xfinale ), ((float) Yfinale)));
+                            recipe.drawFeedTo(new PointF(((float) Xfinale ), ((float) Yfinale)));
 
                             info_modifica.comando = Info_modifica.Comando.Null;
                             Set_Tutti_button_comandi_visibili();
@@ -2084,25 +2059,25 @@ public class Modifica_programma extends Activity {
                         risultato = false;
                         try{
                             if (ElemSelezionati.size() == 0) {   //Steps
-                                if (ricetta.getActiveStepIndex() == info_modifica.id_punto_inizio_modifica) {   //un punto
-                                    risultato = ricetta.deleteActiveStep();
+                                if (recipe.getActiveStepIndex() == info_modifica.id_punto_inizio_modifica) {   //un punto
+                                    risultato = recipe.deleteActiveStep();
                                     List<JamPointCode> ListCodici = new ArrayList<>();
-                                    ListCodici = ricetta.checkInvalidCodes(true);
+                                    ListCodici = recipe.checkInvalidCodes(true);
                                     if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                    ricetta.clearInvalidCodes();
+                                    recipe.clearInvalidCodes();
                                     info_modifica.comando = Info_modifica.Comando.Null;
                                 } else   //più punti
                                 {
-                                    ricetta.selectionStepEnd();
-                                    risultato = ricetta.deleteSelectedSteps();
+                                    recipe.selectionStepEnd();
+                                    risultato = recipe.deleteSelectedSteps();
                                     List<JamPointCode> ListCodici = new ArrayList<>();
-                                    ListCodici = ricetta.checkInvalidCodes(true);
+                                    ListCodici = recipe.checkInvalidCodes(true);
                                     if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                    ricetta.clearInvalidCodes();
+                                    recipe.clearInvalidCodes();
                                     info_modifica.comando = Info_modifica.Comando.Null;
                                 }
 
-                                ricetta.selectionStepClear();
+                                recipe.selectionStepClear();
                                 info_modifica.comando = Info_modifica.Comando.Null;
                             }
 
@@ -2166,20 +2141,20 @@ public class Modifica_programma extends Activity {
                             float Y = info_modifica.DeltaY_inizio.floatValue();
 
 
-                            JamPointStep StepAttuale = ricetta.getActiveStep();
-                            ricetta.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
+                            JamPointStep StepAttuale = recipe.getActiveStep();
+                            recipe.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
 
                             if(info_modifica.StepAttivo != StepAttuale && info_modifica.StepAttivo != null)     //caso in cui ho avanzato con + e non con le frecce
                             {
                                 TextView_info.setText(getString(R.string.DigitaLP) + " (" + old_A + ")");  //Digitare lunghezza punto
-                                ricetta.selectionStepEnd();
-                                ricetta.joinSelectedStepsByLine();
+                                recipe.selectionStepEnd();
+                                recipe.joinSelectedStepsByLine();
                             }
                             else
                             {
-                              //	Element el_linea = ricetta.drawLineTo(new PointF(X - ricetta.pcX, Y - ricetta.pcY), info_modifica.LP);
-                                Element el_linea = ricetta.drawLineTo(new PointF(X , Y ), info_modifica.LP);
-                               	el_linea.passo = info_modifica.LP;
+                              //	Element el_linea = recipe.drawLineTo(new PointF(X - recipe.pcX, Y - recipe.pcY), info_modifica.LP);
+                                Element el_linea = recipe.drawLineTo(new PointF(X , Y ), info_modifica.LP);
+                               	el_linea.stepLength = info_modifica.LP;
                                 el_linea.createSteps();
                             }
                             info_modifica.comando = Info_modifica.Comando.Null;
@@ -2197,11 +2172,11 @@ public class Modifica_programma extends Activity {
                         break;
 
                     case SPOSTA1:
-                        int step_index = ricetta.activeStepIndex;
-                        ricetta.selectionStepEnd();
+                        int step_index = recipe.activeStepIndex;
+                        recipe.selectionStepEnd();
                         if(step_index == -1){
 
-                            if( CheckPuntisovrapposti( Coord_Pinza.XCoordPosPinza,Coord_Pinza.YCoordPosPinza, ricetta.pcX, ricetta.pcY)){
+                            if( CheckPuntisovrapposti( Coord_Pinza.XCoordPosPinza,Coord_Pinza.YCoordPosPinza, recipe.pcX, recipe.pcY)){
 
                                 info_modifica.puntoCarico = true;
                             }
@@ -2210,7 +2185,7 @@ public class Modifica_programma extends Activity {
                         info_modifica.DeltaX_inizio = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                         info_modifica.DeltaY_inizio = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
                         info_modifica.comando = Info_modifica.Comando.SPOSTA2;
-                        info_modifica.id_punto_fine_modifica = ricetta.getActiveStepIndex();
+                        info_modifica.id_punto_fine_modifica = recipe.getActiveStepIndex();
                         TextView_info.setText(getString(R.string.StringMove2));  //Muovere usando le frecce poi premi Enter
                         info_modifica.QuoteRelativeAttive = true;
 
@@ -2219,7 +2194,6 @@ public class Modifica_programma extends Activity {
                     case SPOSTA2:
 
                         try {
-
                             Xfinale = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                             Yfinale = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
                             info_modifica.QuoteRelativeAttive = false;
@@ -2229,69 +2203,71 @@ public class Modifica_programma extends Activity {
 
 
                                 if (ElemSelezionati.size() == 0) {   //Steps
-                                    if ( info_modifica.puntoCarico == true) {   //sono sul punto di carico?
+                                    if (info_modifica.puntoCarico) {   //sono sul punto di carico?
 
                                         info_modifica.puntoCarico = false;
-                                        ricetta.pcX = ricetta.pcX + (float) DeltaX;
-                                        ricetta.pcY = ricetta.pcY + (float) DeltaY;
-                                        if(ricetta.elements.size()>0) {
-                                            Element element = ricetta.elements.get(0);
-                                            element.pStart.x = ricetta.pcX;
-                                            element.pStart.y = ricetta.pcY;
+                                        recipe.pcX = recipe.pcX + (float) DeltaX;
+                                        recipe.pcY = recipe.pcY + (float) DeltaY;
+                                        if (recipe.elements.size() > 0) {
+                                            Element element = recipe.elements.get(0);
+                                            element.pStart.x = recipe.pcX;
+                                            element.pStart.y = recipe.pcY;
                                         }
 
 
-                                    }else{  //non sono sul punto di carico
+                                    } else {  //non sono sul punto di carico
 
                                         if (info_modifica.id_punto_fine_modifica == info_modifica.id_punto_inizio_modifica) {
 
-                                            ricetta.moveActiveStep((float) DeltaX, (float) DeltaY);    //sposto solo un punto
+                                            recipe.moveActiveStep((float) DeltaX, (float) DeltaY);    //sposto solo un punto
                                             info_modifica.comando = Info_modifica.Comando.Null;
                                         } else {
-                                            ricetta.moveSelectedSteps((float) DeltaX, (float) DeltaY);     //sposto tutti i punti
+                                            recipe.moveSelectedSteps((float) DeltaX, (float) DeltaY);     //sposto tutti i punti
                                             info_modifica.comando = Info_modifica.Comando.Null;
                                         }
-                                        ricetta.selectionStepClear();
+                                        recipe.selectionStepClear();
 
                                         List<JamPointCode> ListCodici = new ArrayList<>();
-                                        ListCodici = ricetta.checkInvalidCodes(true);
+                                        ListCodici = recipe.checkInvalidCodes(true);
                                         if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                        ricetta.clearInvalidCodes();
+                                        recipe.clearInvalidCodes();
 
 
                                     }
-
-
-
-
-
-
                                 } else   //entity
                                 {
-
-                                    info_modifica.id_entità_fine_modifica = ricetta.getSelectedEntityFirstElementIndex();
-                                    JamPointStep step = ricetta.getActiveStep();
+                                    Element lastElem = ElemSelezionati.get(ElemSelezionati.size() - 1);
+                                    for(int i = ElemSelezionati.size() - 1; i > 0; i--)
+                                    {
+                                        if(ElemSelezionati.get(i) instanceof ElementLine || ElemSelezionati.get(i) instanceof ElementLine)
+                                        {
+                                            lastElem = ElemSelezionati.get(i);
+                                            break;
+                                        }
+                                    }
+                                    info_modifica.id_element_fine_modifica = recipe.elements.indexOf(lastElem);
+                                    JamPointStep step = recipe.getActiveStep();
                                     PointF p = new PointF(step.p.x, step.p.y);      //quota dell'ultimo punto attivo
-                                    double DeltaX_entity = Xfinale - p.x ;
-                                    double DeltaY__entity = Yfinale - p.y ;
 
-                                    if(info_modifica.id_entità_fine_modifica == info_modifica.id_entità_inizio_modifica)    //se ho una sola entità
+                                    if (info_modifica.id_element_fine_modifica == info_modifica.id_element_inizio_modifica)    //se ho una sola entità
 
-                                        ricetta.moveSelectedEntity((float) DeltaX_entity, (float) DeltaY__entity); //sposto entity
+                                        recipe.moveSelectedEntity((float) DeltaX, (float) DeltaY,info_modifica.id_element_inizio_modifica,info_modifica.id_element_fine_modifica); //sposto entity
                                     else
                                         //se ho selezionato più entità
-                                        ricetta.moveElements(info_modifica.id_entità_inizio_modifica,info_modifica.id_entità_fine_modifica,(float) DeltaX_entity, (float) DeltaY__entity);
+                                        recipe.moveElements(info_modifica.id_element_inizio_modifica, info_modifica.id_element_fine_modifica, (float) DeltaX, (float) DeltaY);
 
                                     List<JamPointCode> ListCodici = new ArrayList<>();
-                                    ListCodici = ricetta.checkInvalidCodes(true);
+                                    ListCodici = recipe.checkInvalidCodes(true);
                                     if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                    ricetta.clearInvalidCodes();
+                                    recipe.clearInvalidCodes();
 
                                     info_modifica.comando = Info_modifica.Comando.Null;
                                 }
-                                ricetta.repair();  //ripara la ricetta nel caso ci siano degli errori di continuità o di coordinate
+                                recipe.repair();  //ripara la ricetta nel caso ci siano degli errori di continuità o di coordinate
 
                                 Aggiorna_canvas();
+
+                                //ElemSelezionati.clear();
 
 
                                 Set_Tutti_button_comandi_visibili();
@@ -2299,13 +2275,14 @@ public class Modifica_programma extends Activity {
                             }
                             Mci_Vb_OutPiedino_su.valore = 1.0d;
                             Mci_Vb_OutPiedino_su.write_flag = true;
+
                         } catch (Exception e) {
                             TextView_info.setText(getString(R.string.Errore));
                         }
                         break;
                     case STRETCH:
 
-                        ricetta.selectionStepEnd();
+                        recipe.selectionStepEnd();
                         TextView_info.setText(getString(R.string.StretchStep));  //Muovere con +- fino allo step di stretch
                         info_modifica.comando = Info_modifica.Comando.STRETCH1;
                         break;
@@ -2328,16 +2305,16 @@ public class Modifica_programma extends Activity {
                             double DeltaY = Yfinale - info_modifica.DeltaY_inizio;
 
 
-                            boolean ret = ricetta.stretchActiveStep((float) DeltaX, (float) DeltaY);
+                            boolean ret = recipe.stretchActiveStep((float) DeltaX, (float) DeltaY);
                             info_modifica.comando = Info_modifica.Comando.Null;
                             Aggiorna_canvas();
 
                             Set_Tutti_button_comandi_visibili();
                             if (ret) {
                                 List<JamPointCode> ListCodici = new ArrayList<>();
-                                ListCodici = ricetta.checkInvalidCodes(true);
+                                ListCodici = recipe.checkInvalidCodes(true);
                                 if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                ricetta.clearInvalidCodes();
+                                recipe.clearInvalidCodes();
 
 
                                 TextView_info.setText(getString(R.string.Fatto));
@@ -2410,27 +2387,27 @@ public class Modifica_programma extends Activity {
 
                             }
 
-                            JamPointStep StepAttuale = ricetta.getActiveStep();
+                            JamPointStep StepAttuale = recipe.getActiveStep();
 
                             if(info_modifica.StepAttivo != StepAttuale && info_modifica.StepAttivo != null)     //caso in cui sono avanzato con + e non con le frecce
                             {
-                                ricetta.setDrawPosition(new PointF(info_modifica.StepAttivo.p.x,info_modifica.StepAttivo.p.y ));
-                                ricetta.goToPreviousStep();
-                                Element el_z = ricetta.drawZigZagTo(new PointF(StepAttuale.p.x, StepAttuale.p.y),  info_modifica.AltezzaZigZag,Passo_ZigZag);
-                                el_z.passo = Passo_ZigZag;
-                                if (el_z instanceof ElementZigZag)
-                                    ((ElementZigZag) el_z).altezza = info_modifica.AltezzaZigZag;
+                                recipe.setDrawPosition(new PointF(info_modifica.StepAttivo.p.x,info_modifica.StepAttivo.p.y ));
+                                recipe.goToPreviousStep();
+                                Element el_z = recipe.drawLineZigZagTo(new PointF(StepAttuale.p.x, StepAttuale.p.y),  info_modifica.AltezzaZigZag,Passo_ZigZag);
+                                el_z.stepLength = Passo_ZigZag;
+                                if (el_z instanceof ElementLineZigZag)
+                                    ((ElementLineZigZag) el_z).height = info_modifica.AltezzaZigZag;
                                 el_z.createSteps();
 
                             }
                             else {
 
-                                ricetta.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
+                                recipe.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
 
-                                Element el_z = ricetta.drawZigZagTo(new PointF(((float) info_modifica.X_End ), ((float) info_modifica.Y_End) ),  info_modifica.AltezzaZigZag,Passo_ZigZag);
-                                el_z.passo = Passo_ZigZag;
-                                if (el_z instanceof ElementZigZag)
-                                    ((ElementZigZag) el_z).altezza = info_modifica.AltezzaZigZag;
+                                Element el_z = recipe.drawLineZigZagTo(new PointF(((float) info_modifica.X_End ), ((float) info_modifica.Y_End) ),  info_modifica.AltezzaZigZag,Passo_ZigZag);
+                                el_z.stepLength = Passo_ZigZag;
+                                if (el_z instanceof ElementLineZigZag)
+                                    ((ElementLineZigZag) el_z).height = info_modifica.AltezzaZigZag;
                                 el_z.createSteps();
 
                             }
@@ -2452,12 +2429,12 @@ public class Modifica_programma extends Activity {
                             if (isNumeric((String) TextView_info.getText())) {
                                 try {
                                     float LP = Float.parseFloat((String) TextView_info.getText());
-                                    ricetta.modify(LP);
+                                    recipe.modify(LP);
 
                                     List<JamPointCode> ListCodici = new ArrayList<>();
-                                    ListCodici = ricetta.checkInvalidCodes(true);
+                                    ListCodici = recipe.checkInvalidCodes(true);
                                     if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                    ricetta.clearInvalidCodes();
+                                    recipe.clearInvalidCodes();
 
 
                                     info_modifica.comando = Info_modifica.Comando.Null;
@@ -2478,10 +2455,10 @@ public class Modifica_programma extends Activity {
                         break;
                     case SPOSTA_ALL:
                         try {
-                            if(ricetta.getActiveStepIndex() == -1){  //controllo se sono sul punto di carico
-                                if (ricetta.elements.size() > 0) {
-                                    float PCX = ricetta.pcX;
-                                    float PCY = ricetta.pcY;
+                            if(recipe.getActiveStepIndex() == -1){  //controllo se sono sul punto di carico
+                                if (recipe.elements.size() > 0) {
+                                    float PCX = recipe.pcX;
+                                    float PCY = recipe.pcY;
 
                                     Xfinale = (Double) MultiCmd_posizione_X.getValue() / 1000d;
                                     Yfinale = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
@@ -2490,10 +2467,10 @@ public class Modifica_programma extends Activity {
                                         double DeltaX = Xfinale - info_modifica.DeltaX_inizio;
                                         double DeltaY = Yfinale - info_modifica.DeltaY_inizio;
 
-                                        ricetta.move((float) DeltaX, (float) DeltaY);
-                                        ricetta.pcX = PCX;  //rimetto il pc come era prima
-                                        ricetta.pcY = PCY;  //rimetto il pc come era prima
-                                        ricetta.elements.get(0).pStart = new PointF(PCX, PCY); // FirstEntityPoint;
+                                        recipe.move((float) DeltaX, (float) DeltaY);
+                                        recipe.pcX = PCX;  //rimetto il pc come era prima
+                                        recipe.pcY = PCY;  //rimetto il pc come era prima
+                                        recipe.elements.get(0).pStart = new PointF(PCX, PCY); // FirstEntityPoint;
                                         Aggiorna_canvas();
                                         info_modifica.comando = Info_modifica.Comando.Null;
                                         Set_Tutti_button_comandi_visibili();
@@ -2507,18 +2484,18 @@ public class Modifica_programma extends Activity {
                                 double DeltaX = Xfinale - info_modifica.DeltaX_inizio;
                                 double DeltaY = Yfinale - info_modifica.DeltaY_inizio;
 
-                                int id_step_start = ricetta.getActiveStepIndex();
-                                int id_elem_start = ricetta.elements.indexOf(ricetta.getActiveStep().element);
-                               // int  id_end =  ricetta.elements.indexOf(ricetta.elements.size()-1) ;
-                                int  id_end = ricetta.elements.size()-1 ;
+                                int id_step_start = recipe.getActiveStepIndex();
+                                int id_elem_start = recipe.elements.indexOf(recipe.getActiveStep().element);
+                               // int  id_end =  recipe.elements.indexOf(recipe.elements.size()-1) ;
+                                int  id_end = recipe.elements.size()-1 ;
 
 
-                                ricetta.moveElements(id_elem_start,id_end,(float) DeltaX, (float) DeltaY);
+                                recipe.moveElements(id_elem_start,id_end,(float) DeltaX, (float) DeltaY);
 
                                 List<JamPointCode> ListCodici = new ArrayList<>();
-                                ListCodici = ricetta.checkInvalidCodes(true);
+                                ListCodici = recipe.checkInvalidCodes(true);
                                 if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                ricetta.clearInvalidCodes();
+                                recipe.clearInvalidCodes();
                                 Aggiorna_canvas();
                                 info_modifica.comando = Info_modifica.Comando.Null;
                                 Set_Tutti_button_comandi_visibili();
@@ -2533,18 +2510,18 @@ public class Modifica_programma extends Activity {
                         break;
                     case RADDRIZZA_LINEA:
                         try {
-                            if (info_modifica.id_punto_inizio_modifica != ricetta.getActiveStepIndex()) {
-                                ricetta.selectionStepEnd();
-                                boolean result = ricetta.joinSelectedStepsByLine();
-                                ricetta.selectionStepClear();
+                            if (info_modifica.id_punto_inizio_modifica != recipe.getActiveStepIndex()) {
+                                recipe.selectionStepEnd();
+                                boolean result = recipe.joinSelectedStepsByLine();
+                                recipe.selectionStepClear();
                                 info_modifica.comando = Info_modifica.Comando.Null;
                                 Aggiorna_canvas();
                                 Set_Tutti_button_comandi_visibili();
                                 if (result) {
                                     List<JamPointCode> ListCodici = new ArrayList<>();
-                                    ListCodici = ricetta.checkInvalidCodes(true);
+                                    ListCodici = recipe.checkInvalidCodes(true);
                                     if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                                    ricetta.clearInvalidCodes();
+                                    recipe.clearInvalidCodes();
 
                                     TextView_info.setText(getString(R.string.Fatto));  //
 
@@ -2572,12 +2549,12 @@ public class Modifica_programma extends Activity {
                         double YMiddle = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
 
 
-                        ricetta.transformSelectedEntityToArc(new PointF((float) XMiddle, (float) YMiddle));
+                        recipe.transformSelectedEntityToArc(new PointF((float) XMiddle, (float) YMiddle));
 
                         List<JamPointCode> ListCodici_Ent = new ArrayList<>();
-                        ListCodici_Ent = ricetta.checkInvalidCodes(true);
+                        ListCodici_Ent = recipe.checkInvalidCodes(true);
                         if (ListCodici_Ent.size() > 0) ShowCodeToast(ListCodici_Ent);
-                        ricetta.clearInvalidCodes();
+                        recipe.clearInvalidCodes();
 
 
                         info_modifica.comando = Info_modifica.Comando.Null;
@@ -2594,8 +2571,8 @@ public class Modifica_programma extends Activity {
 
                         if (info_modifica.ElemSelezionati.size() == 0)
                         {
-                           info_modifica.id_punto_middle_modifica = ricetta.getActiveStepIndex();
-                          //  ricetta.selectionStepEnd();
+                           info_modifica.id_punto_middle_modifica = recipe.getActiveStepIndex();
+                          //  recipe.selectionStepEnd();
                             info_modifica.comando = Info_modifica.Comando.RADDRIZZA_ARCO1;
                             //TextView_info.setText(getString(R.string.EndPointStep));
                             // TextView_info.setText(getString(R.string.MiddlePointStep));
@@ -2610,16 +2587,16 @@ public class Modifica_programma extends Activity {
 
                     case RADDRIZZA_ARCO1:
                         try {
-                            info_modifica.id_punto_fine_modifica = ricetta.getActiveStepIndex();
-                            ricetta.joinSelectedStepsByArc(info_modifica.id_punto_inizio_modifica, info_modifica.id_punto_middle_modifica,info_modifica.id_punto_fine_modifica);
+                            info_modifica.id_punto_fine_modifica = recipe.getActiveStepIndex();
+                            recipe.joinSelectedStepsByArc(info_modifica.id_punto_inizio_modifica, info_modifica.id_punto_middle_modifica,info_modifica.id_punto_fine_modifica);
                             TextView_info.setText(getString(R.string.Fatto));
                             Aggiorna_canvas();
                             Set_Tutti_button_comandi_visibili();
                             info_modifica.comando = Info_modifica.Comando.Null;
                             List<JamPointCode> ListCodici = new ArrayList<>();
-                            ListCodici = ricetta.checkInvalidCodes(true);
+                            ListCodici = recipe.checkInvalidCodes(true);
                             if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                            ricetta.clearInvalidCodes();
+                            recipe.clearInvalidCodes();
                             Mci_Vb_OutPiedino_su.valore = 1.0d;
                             Mci_Vb_OutPiedino_su.write_flag = true;
                         } catch (Exception e) {
@@ -2634,14 +2611,14 @@ public class Modifica_programma extends Activity {
             }
         }catch (Exception e)
         {}
-        //  TextView_tot_punti.setText(""+  ricetta.getPoints().size());
+        //  TextView_tot_punti.setText(""+  recipe.getPoints().size());
     }
 
     private boolean CheckPuntisovrapposti(double xCoordPosPinza, double yCoordPosPinza, float pcX, float pcY) {
-        if(Coord_Pinza.XCoordPosPinza - ricetta.pcX >-0.06 &&
-                Coord_Pinza.XCoordPosPinza - ricetta.pcX <0.06 &&
-                Coord_Pinza.YCoordPosPinza - ricetta.pcY >-0.06 &&
-                Coord_Pinza.YCoordPosPinza - ricetta.pcY <0.06)
+        if(Coord_Pinza.XCoordPosPinza - recipe.pcX >-0.06 &&
+                Coord_Pinza.XCoordPosPinza - recipe.pcX <0.06 &&
+                Coord_Pinza.YCoordPosPinza - recipe.pcY >-0.06 &&
+                Coord_Pinza.YCoordPosPinza - recipe.pcY <0.06)
             return  true;
         else return  false;
 
@@ -2803,16 +2780,16 @@ public class Modifica_programma extends Activity {
     public void on_click_traform_toLine(View view) throws IOException {
         if (ElemSelezionati.size() > 0) {   //entity
             try {
-                ricetta.transformSelectedEntityToLine();
+                recipe.transformSelectedEntityToLine();
 
                 List<JamPointCode> ListCodici = new ArrayList<>();
-                ListCodici = ricetta.checkInvalidCodes(true);
+                ListCodici = recipe.checkInvalidCodes(true);
                 if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                ricetta.clearInvalidCodes();
+                recipe.clearInvalidCodes();
 
 
-                ElemSelezionati = ricetta.selectPreviousEntity();   //per aggiornare
-                ElemSelezionati = ricetta.selectNextEntity();   //per aggiornare
+                ElemSelezionati = recipe.selectPreviousEntity();   //per aggiornare
+                ElemSelezionati = recipe.selectNextEntity();   //per aggiornare
 
                 Aggiorna_canvas();
             }catch (Exception e)
@@ -2825,15 +2802,15 @@ public class Modifica_programma extends Activity {
     public void on_click_traform_toZigZag(View view) throws IOException {
         if (ElemSelezionati.size() > 0) {   //entity
             try {
-                ricetta.transformSelectedEntityToZigZag();
+                recipe.transformSelectedEntityToLineZigZag();
 
                 List<JamPointCode> ListCodici = new ArrayList<>();
-                ListCodici = ricetta.checkInvalidCodes(true);
+                ListCodici = recipe.checkInvalidCodes(true);
                 if (ListCodici.size() > 0) ShowCodeToast(ListCodici);
-                ricetta.clearInvalidCodes();
+                recipe.clearInvalidCodes();
 
-                ElemSelezionati = ricetta.selectPreviousEntity();   //per aggiornare
-                ElemSelezionati = ricetta.selectNextEntity();   //per aggiornare
+                ElemSelezionati = recipe.selectPreviousEntity();   //per aggiornare
+                ElemSelezionati = recipe.selectNextEntity();   //per aggiornare
                 Aggiorna_canvas();
             }catch (Exception e)
             {}
@@ -2844,16 +2821,16 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     public void on_click_traform_toFeed(View view) throws IOException {
         if (ElemSelezionati.size() > 0) {   //entity
-            ricetta.transformSelectedEntityToFeed();
+            recipe.transformSelectedEntityToFeed();
 
 
             List<JamPointCode> ListCodici = new ArrayList<>();
-            ListCodici = ricetta.checkInvalidCodes(false);
+            ListCodici = recipe.checkInvalidCodes(false);
             if(ListCodici.size()>0) ShowCodeToast(ListCodici);
-            ricetta.clearInvalidCodes();
+            recipe.clearInvalidCodes();
 
-            ElemSelezionati = ricetta.selectPreviousEntity();   //per aggiornare
-            ElemSelezionati = ricetta.selectNextEntity();   //per aggiornare
+            ElemSelezionati = recipe.selectPreviousEntity();   //per aggiornare
+            ElemSelezionati = recipe.selectNextEntity();   //per aggiornare
             Aggiorna_canvas();
         }
     }
@@ -2862,7 +2839,7 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     public void on_click_explode(View view) throws IOException {
         if (ElemSelezionati.size() > 0) {   //entity
-            ricetta.explodeSelectedEntity();
+            recipe.explodeSelectedEntity();
             ElemSelezionati.clear();
             Aggiorna_canvas();
         }
@@ -2872,37 +2849,31 @@ public class Modifica_programma extends Activity {
     // on_click_sposta
     //*************************************************************************************************
     public void on_click_sposta(View view) throws IOException {
-        //move steps
-        if(ElemSelezionati.size() == 0){
-            ricetta.selectionStepStart();
+
+        if (ElemSelezionati.size() == 0) {
+            recipe.selectionStepStart();
 
             Set_Altri_button_comandi_invisibili(Button_sposta);
             info_modifica.Init_info_modifica();
             info_modifica.QuoteRelativeAttive = true;
-            info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
+            info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
             info_modifica.comando = Info_modifica.Comando.SPOSTA1;
-            info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
+            info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
             info_modifica.DeltaX_inizio = (Double) MultiCmd_posizione_X.getValue() / 1000d;
             info_modifica.DeltaY_inizio = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
 
             TextView_info.setText(getString(R.string.StringMove1));  //Premi tasti + - fino ultimo punto da spostare
-        }else
-        {
-
+        } else {
             Set_Altri_button_comandi_invisibili(Button_sposta);
             info_modifica.Init_info_modifica();
             info_modifica.QuoteRelativeAttive = true;
-            info_modifica.comando = Info_modifica.Comando.SPOSTA2;
-            info_modifica.id_entità_inizio_modifica = ricetta.getSelectedEntityFirstElementIndex();
-            info_modifica.DeltaX_inizio = (Double)MultiCmd_posizione_X.getValue()/1000d;
-            info_modifica.DeltaY_inizio = (Double)MultiCmd_posizione_Y.getValue()/1000d;
+            info_modifica.comando = Info_modifica.Comando.SPOSTA1;
+            info_modifica.id_element_inizio_modifica = recipe.getSelectedEntityFirstElementIndex();
+            info_modifica.DeltaX_inizio = (Double) MultiCmd_posizione_X.getValue() / 1000d;
+            info_modifica.DeltaY_inizio = (Double) MultiCmd_posizione_Y.getValue() / 1000d;
             TextView_info.setText(getString(R.string.StringMove3));  //Muovere usando le frecce poi premi Enter
         }
-
-
-
         Set_Altri_button_comandi_invisibili(Button_sposta);
-
 
     }
     //*************************************************************************************************
@@ -2922,19 +2893,38 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     // on_click_codici
     //*************************************************************************************************
-    public void on_click_codici(View view) throws IOException {
+    public void on_click_codici(View view) throws IOException, JSONException {
 
 
-        int punto_attuale = ricetta.getActiveStepIndex();
-        List<JamPointCode> codeStatus = ricetta.getActiveStepCodes();
+  //      int punto_attuale = recipe.getActiveStepIndex();
+  //      List<JamPointCode> codeStatus = recipe.getActiveStepCodes();
+  //      Code_page.Lancia_Code_Page(this,codeStatus,punto_attuale);
+        long startTime = System.nanoTime();
 
-        if(punto_attuale == -1){    //mi serve per passare l'angolo di rotazione della partenza
-            codeStatus = ricetta.codes;
+        int punto_attuale = recipe.getActiveStepIndex();
+        ArrayList<JamPointCode> codeStatus = new ArrayList<JamPointCode>();
+
+        for (JamPointCode code : recipe.codes) {
+            codeStatus.add(code);
         }
-        int Angolo = (int) Math.round((Double)MultiCmd_Quota_Assoluta_rotazione.getValue()/1000);
-        Code_page.Lancia_Code_Page(this,codeStatus,punto_attuale,Angolo);
+
+        long stopTime = System.nanoTime();
+        System.out.println(stopTime - startTime);
+        Intent code = new Intent(this, Code_page.class);
 
 
+        //Convert the codes to a JsonArray
+        JSONArray array = new JSONArray();
+        for (JamPointCode code1 : codeStatus) {
+            array.put(code1.toJson());
+        }
+
+        String res = array.toString();
+        code.putExtra("stepindex", recipe.activeStepIndex);
+        code.putExtra("codes", res);
+        stopTime = System.nanoTime();
+        System.out.println(stopTime - startTime);
+        startActivityForResult(code, RESULT_PAGE_CODE);
 
     }
     //*************************************************************************************************
@@ -2944,8 +2934,8 @@ public class Modifica_programma extends Activity {
     {
         Set_Altri_button_comandi_invisibili(Button_raddrizza_arco);
         info_modifica.Init_info_modifica();
-        ricetta.selectionStepStart();
-        info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
+        recipe.selectionStepStart();
+        info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
         info_modifica.comando = Info_modifica.Comando.RADDRIZZA_ARCO;
         info_modifica.ElemSelezionati = ElemSelezionati;
         if(ElemSelezionati.size() >0) {    //sto lavorando come entità
@@ -2961,7 +2951,7 @@ public class Modifica_programma extends Activity {
     {
         if(ElemSelezionati.size() >0 )
         {   //entity
-            ricetta.transformSelectedEntityToLine(); // changeSelectedEntityToLine();
+            recipe.transformSelectedEntityToLine(); // changeSelectedEntityToLine();
             Aggiorna_canvas();
         }else
         {
@@ -2969,9 +2959,9 @@ public class Modifica_programma extends Activity {
 
             Set_Altri_button_comandi_invisibili(Button_raddrizza_linea);
             info_modifica.Init_info_modifica();
-            ricetta.selectionStepStart();
+            recipe.selectionStepStart();
             info_modifica.comando = Info_modifica.Comando.RADDRIZZA_LINEA;
-            info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
+            info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
 
 
             TextView_info.setText(getString(R.string.StringRaddrizzaLinea1));  //Premi tasti + - fino ultimo punto da allineare
@@ -2995,13 +2985,13 @@ public class Modifica_programma extends Activity {
         TextView_info.setText(getString(R.string.StringMove4));  //premi +- o Muovere usando le frecce poi premi Enter
 
         //daniele 18/06/2020, se arrivo sul punto di giunsione tra un elemento cucito e uno di step movendomi come entità non inseriva il nuovo elemento
-        if(ricetta.isActiveStepIntersection()){
-            ricetta.goToPreviousStep();
+        if(recipe.isActiveStepIntersection()){
+            recipe.goToPreviousStep();
         }
         //fine modifica
 
-        info_modifica.StepAttivo = ricetta.getActiveStep() ;
-        ricetta.selectionStepStart();
+        info_modifica.StepAttivo = recipe.getActiveStep() ;
+        recipe.selectionStepStart();
 
     }
     //*************************************************************************************************
@@ -3016,7 +3006,7 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     public void on_click_debug(View view) throws IOException {
 
-        ricetta.repair();
+        recipe.repair();
 
     }
     //*************************************************************************************************
@@ -3026,9 +3016,9 @@ public class Modifica_programma extends Activity {
         Set_Altri_button_comandi_invisibili(Button_arco3p);
         info_modifica.Init_info_modifica();
         info_modifica.comando = Info_modifica.Comando.ARCO3P_0;
-        JamPointStep StepAttuale = ricetta.getActiveStep();
-        ricetta.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
-        info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();   //daniele 18/06/20
+        JamPointStep StepAttuale = recipe.getActiveStep();
+        recipe.setDrawPosition(new PointF(StepAttuale.p.x,StepAttuale.p.y ));
+        info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();   //daniele 18/06/20
         TextView_info.setText(getString(R.string.Arco3P_p2));  //Muovere usando le frecce poi premi Enter
 
     }
@@ -3055,20 +3045,20 @@ public class Modifica_programma extends Activity {
     public void on_click_cancella(View view) throws IOException {
 
         if (ElemSelezionati.size() == 0) {  //steps
-            ricetta.selectionStepStart();
+            recipe.selectionStepStart();
             Set_Altri_button_comandi_invisibili(Button_cancella);
             info_modifica.Init_info_modifica();
             info_modifica.comando = Info_modifica.Comando.CANCELLA;
-            info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
+            info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
             TextView_info.setText(getString(R.string.StringCancella));  //Premi tasti + - fino ultimo punto da cancellare
 
         } else {    //entity
 
-            ricetta.deleteSelectedEntity();     //cancello entity
+            recipe.deleteSelectedEntity();     //cancello entity
             List<JamPointCode> ListCodici = new ArrayList<>();
-            ListCodici = ricetta.checkInvalidCodes(false);
+            ListCodici = recipe.checkInvalidCodes(false);
             if(ListCodici.size()>0) ShowCodeToast(ListCodici);
-            ricetta.clearInvalidCodes();
+            recipe.clearInvalidCodes();
 
             info_StepPiuMeno.MacStati_StepSingolo = 10;
             info_StepPiuMeno.tipo_spostamento = Info_StepPiuMeno.Tipo_spostamento.TO_STEP_ATTIVO;
@@ -3087,8 +3077,8 @@ public class Modifica_programma extends Activity {
 
         Set_Altri_button_comandi_invisibili(Button_stretch_edge);
         info_modifica.comando = Info_modifica.Comando.STRETCH;
-        //  info_modifica.id_punto_inizio_modifica = ricetta.getActiveStepIndex();
-        ricetta.selectionStepStart();
+        //  info_modifica.id_punto_inizio_modifica = recipe.getActiveStepIndex();
+        recipe.selectionStepStart();
         TextView_info.setText(getString(R.string.EndStretchStep));  //Muovere con + fino allo step finale dello stretch
 
     }
@@ -3139,7 +3129,7 @@ public class Modifica_programma extends Activity {
 
 
         try {
-            boolean result = ricetta.clearActiveStepCodes();
+            boolean result = recipe.clearActiveStepCodes();
 
             Aggiorna_canvas();
 
@@ -3441,7 +3431,7 @@ public class Modifica_programma extends Activity {
 
         for(JamPointCode code : listCodici)
         {
-            testo = testo+"\n"+code.tipoCodice+ " "+ code.valore;
+            testo = testo+"\n"+code.codeType+ " "+ code.value;
 
         }
         Toast.makeText(getApplication(), testo, Toast.LENGTH_LONG).show();
@@ -3499,6 +3489,8 @@ public class Modifica_programma extends Activity {
         float LP,AltezzaZigZag;
         JamPointStep StepAttivo;
         boolean puntoCarico;
+        int id_element_inizio_modifica;
+        int id_element_fine_modifica;
 
         public enum Comando{ Null,HOME,HOME_DONE,SPOSTA1,SPOSTA2,CANCELLA,STRETCH,ZIGZAG,ZIGZAG_1,ZIGZAG_2,M888,SPOSTA_ALL,RADDRIZZA_LINEA,RADDRIZZA_ARCO,RADDRIZZA_ARCO1,
             LINEA,LINEA1,STRETCH1,STRETCH2,ARCO3P_0,ARCO3P_1,ARCO3P_2,FEED,RADDRIZZA_ARCO_ENTITA,ESCI,ESCI_DONE_AZZERAMENTO};
@@ -3525,6 +3517,8 @@ public class Modifica_programma extends Activity {
             id_entità_inizio_modifica = 0;
             id_entità_fine_modifica = 0;
             puntoCarico = false;
+            id_element_inizio_modifica = 0;
+            id_element_fine_modifica = 0;
         }
 
 
@@ -3570,6 +3564,59 @@ public class Modifica_programma extends Activity {
 
         }
     }
+    Map<Integer, List<JamPointCode>> codesList = new LinkedHashMap<Integer, List<JamPointCode>>();
+    private Map<Integer, List<JamPointCode>> GetCodes() {
+        Map<Integer, List<JamPointCode>> codesList = new LinkedHashMap<Integer, List<JamPointCode>>();
+        //Mi serve così per averli ordinati, altriemnti li devo riordianre dopo
+
+     //   long startTime = System.nanoTime();
+
+        for(Element elem : recipe.elements)
+        {
+            for(JamPointStep step : elem.steps)
+            {
+                if(step.element.recipe.codes.size() != 0) {
+                    codesList.put(getIndex(step), getcodes(step));
+                }
+            }
+        }
+
+        //Metodo più veloce ma poi li devo riordinare per stepindex e devo aggiungerli se sono sullo stesso step
+        /*for(JamPointCode code : recipe.codes){
+            if(!codesList.containsKey(code.getStep().getIndex())) {
+                codesList.put(code.getStep().getIndex(),
+            }else{
+                codesList.get(code).add(code);
+            }
+        }*/
+      //  long stopTime = System.nanoTime();
+      //  System.out.println(stopTime - startTime);
+
+        return codesList;
+    }
+    public int getIndex(JamPointStep step)
+    {
+        return step.element.recipe.getStepIndex(step);
+        //return this.element.recipe.getStepIndex(this);
+    }
+    //Martino
+    public ArrayList<JamPointCode> getcodes(JamPointStep step)
+    {
+        ArrayList<JamPointCode> codes = new ArrayList<>();
+        for(JamPointCode code : step.element.recipe.codes)
+        {
+            if(code.codeType != null) {
+                if (code.getStep().equals(this)) {
+                    codes.add(code);
+                }
+            }/*else{
+                if (this.element.recipe.getStepNotDuplicated(0).equals(this)) {
+                    codes.add(code);
+                }
+            }*/
+        }
+        return codes;
+    }
     //*************************************************************************************************
     // ritorno da pagina x
     //*************************************************************************************************
@@ -3613,9 +3660,41 @@ public class Modifica_programma extends Activity {
                 }
                 break;
             case RESULT_PAGE_CODE:
+                boolean esiste= false;
+                Bundle bundle_code = data.getExtras();
 
+                String str = bundle_code.getString("newCodes");
+                recipe.PLCType =recipe.PLCType.M8;
+                if (str != null) {
+                    Gson g = new Gson();
+                    JamPointCode[] codeReturn = g.fromJson(str, JamPointCode[].class);
+
+                    if (codeReturn.length > 0) {
+                        // recipe.clearActiveStepCodes();
+
+                        for (JamPointCode code : codeReturn) {
+                            if(code.codeType == JamPointCode.CodeType.RASAFILO1)
+                                code.codeValueType = JamPointCode.CodeValueType.Integer;
+
+                            if (code.codeType == JamPointCode.CodeType.SPEED_M8 ||
+                                    code.codeType == JamPointCode.CodeType.OP1 ||
+                                    code.codeType == JamPointCode.CodeType.OP2 ||
+                                    code.codeType == JamPointCode.CodeType.OP3 |
+                                    code.codeType == JamPointCode.CodeType.RASAFILO1 )
+
+                                recipe.addActiveStepCode(code.codeType, code.value);
+
+
+
+
+                        }
+                    }
+
+                    Aggiorna_canvas();
+
+     //               codesList = GetCodes();
+                }
                 break;
-
             default:
                 break;
 
@@ -3634,8 +3713,8 @@ public class Modifica_programma extends Activity {
         try {
             if(ElemSelezionati.size() >0) {
 
-                if(ElemSelezionati.get(0) instanceof ElementZigZag){
-                    ricetta.modifySelectedEntityZigZag(nuova_altezza);
+                if(ElemSelezionati.get(0) instanceof ElementLineZigZag){
+                    recipe.modifySelectedEntityZigZag(nuova_altezza);
                 }
 
                 Aggiorna_canvas();
@@ -3656,17 +3735,17 @@ public class Modifica_programma extends Activity {
             if(ElemSelezionati.size() >0) {
 
                 if ((ElemSelezionati.get(0) instanceof ElementLine) || ElemSelezionati.get(0) instanceof ElementArc) {
-                    ricetta.modifySelectedEntity(nuovoPasso);
+                    recipe.modifySelectedEntity(nuovoPasso);
 
 
                 }
-                if (ElemSelezionati.get(0) instanceof ElementZigZag) {
-                    ricetta.modifySelectedEntity(nuovoPasso);
+                if (ElemSelezionati.get(0) instanceof ElementLineZigZag) {
+                    recipe.modifySelectedEntity(nuovoPasso);
                 }
                 List<JamPointCode> ListCodici = new ArrayList<>();
-                ListCodici = ricetta.checkInvalidCodes(true);
+                ListCodici = recipe.checkInvalidCodes(true);
                 if(ListCodici.size()>0) ShowCodeToast(ListCodici);
-                ricetta.clearInvalidCodes();
+                recipe.clearInvalidCodes();
 
                 Aggiorna_canvas();
             }
@@ -3675,39 +3754,7 @@ public class Modifica_programma extends Activity {
         }
 
     }
-    //*************************************************************************************************
-    // BroadcastReceiver ritorno codici
-    //*************************************************************************************************
-    private BroadcastReceiver Code_MessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
 
-
-            Bundle bundle_code = intent.getExtras();
-
-            List<JamPointCode> codeReturn= (List<JamPointCode>)bundle_code.getSerializable("valoreCodice");
-
-            if(codeReturn.size()>0)
-            {
-                for(JamPointCode code:codeReturn)
-                {
-                    if(code.tipoCodice == JamPointCode.TipiCodici.ANGOLO_ROT){
-                        ricetta.addActiveStepCodeRotazione(code.tipoCodice,code.Angolo_rotaz,code.Num_punti_rotaz);
-
-                    }else {
-                        if (code.tipoCodice == JamPointCode.TipiCodici.SPEED_M8 || code.tipoCodice == JamPointCode.TipiCodici.TENS_M8)
-                            ricetta.addActiveStepCodeM8(code.tipoCodice, code.valore_M8);
-                        else
-                            ricetta.addActiveStepCode(code.tipoCodice, code.valore);
-                    }
-                    Aggiorna_canvas();
-                }
-
-
-            }
-
-        }
-    };
     //*************************************************************************************************
     //Broadcast Receiver per cambio lunghezza punto entità
     //*************************************************************************************************
@@ -3747,7 +3794,7 @@ public class Modifica_programma extends Activity {
     //*************************************************************************************************
     private void KillThread() {
 
-      LocalBroadcastManager.getInstance(this).unregisterReceiver(Code_MessageReceiver);
+
       LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver_KeyDialog);
         StopThread = true;
         try {

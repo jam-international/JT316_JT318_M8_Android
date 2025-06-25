@@ -46,7 +46,14 @@ public class Utility {
         currentGroup1.enumerate(lstThreads1);
         return lstThreads1.length;
     }
-
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     static byte[] getByte(String path) {
         byte[] getBytes = {};
         try {
